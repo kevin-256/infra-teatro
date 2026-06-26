@@ -128,5 +128,35 @@ set bridge vlan-filtering=yes
 /ip/ssh/set strong-crypto=yes
 
 
+# QOS
+# QoS profiles to match Dante traffic classes
+/interface/ethernet/switch/qos/profile
+add name=dante-ptp dscp=56 pcp=7 traffic-class=7
+add name=dante-audio dscp=46 pcp=5 traffic-class=5
+
+# Hardware queue to enforce QoS on Dante traffic
+/interface/ethernet/switch/qos/tx-manager/queue
+set [find where traffic-class=7] schedule=strict-priority
+set [find where traffic-class=5] schedule=strict-priority
+
+# Enable trust mode for incoming Layer 3 packets (IP DSCP field)
+/interface/ethernet/switch/qos/port
+set [find] trust-l3=keep
+
+# Enable QoS hardware offloading
+/interface/ethernet/switch
+set switch1 qos-hw-offloading=yes
+
+# Only for Dante Multicast
+# /interface/bridge
+# set [find name=bridge] igmp-snooping=yes multicast-querier=yes query-interval=60s
+# /interface/bridge/port
+# set [find] fast-leave=yes
+
+
+# SNMP
+/snmp/set enabled=yes location="Front of House"
+/snmp community add name=public addresses=10.69.10.0/24 read-access=yes
+
 # Setup user
 /user/add name=kevin password=CHANGE_THIS_PASSWORD group=full
