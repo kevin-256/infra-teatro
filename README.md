@@ -14,8 +14,8 @@
 4. Aprire winbox e collegarsi(tramite mac address) con username `admin` e senza password
 5. Andare su menu files a sinistra
 6. Trascinare il file .rcs dal proprio pc alla pagina files
-    > [!NOTE]
-    > Cambiare le password nel file di configurazione prima di lanciare il file cambiando in tutti i punti dove compare `CHANGE_PASSWORD`
+> [!NOTE]
+> Cambiare le password nel file di configurazione prima di lanciare il file cambiando in tutti i punti dove compare `CHANGE_PASSWORD`
 7. Aprire un nuovo terminale dentro winbox dal menu a sinistra
 8. Impostare una password come richiesto
 9. Lanciare il comando `/system/reset-configuration no-defaults=yes skip-backup=yes run-after-reset=file_caricato.rcs` con nome del file giusto e poi aspettare che si riavvi
