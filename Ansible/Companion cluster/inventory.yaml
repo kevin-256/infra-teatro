@@ -1,0 +1,32 @@
+companion:
+  hosts:
+    node-1:
+      ansible_host: 192.168.71.101
+    node-2:
+      ansible_host: 192.168.71.102
+    node-3:
+      ansible_host: 192.168.71.103
+  vars:
+    host_key_checking: False
+    ansible_ssh_user: "kevin"
+#Glusterfs
+    gluster_device: /dev/sdb
+    gluster_partition: /dev/sdb1
+    gluster_data_dir: /cluster-data
+    gluster_brick_dir: /cluster-data/companion
+    gluster_mount_dir: /home/companion/.config/companion-nodejs
+    gluster_volume_name: companion-data
+    gluster_group: companion
+
+#Pacemaker/corosync
+    cluster_name: companion-cluster
+
+    corosync_params:
+      token: 100
+      token_retransmits_before_loss_const: 3
+      consensus: 100
+
+    cluster_vip: 192.168.71.100
+    cluster_vip_cidr: 24
+    cluster_vip_nic: ens18
+    hacluster_password: "SuperSecretPassword"

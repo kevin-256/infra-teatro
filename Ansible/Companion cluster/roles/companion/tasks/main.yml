@@ -1,0 +1,61 @@
+---
+- name: Install dependencies
+  apt:
+    name:
+      - curl
+      - git
+    state: present
+    cache_valid_time: 86400
+
+- name: Get latest stable Companion release from GitHub
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/bitfocus/companion/releases/latest
+    return_content: true
+    headers:
+      Accept: application/vnd.github+json
+  register: companion_release
+
+- name: Run Bitfocus Companion install script
+  shell: |
+    curl -s https://raw.githubusercontent.com/bitfocus/companion-pi/main/install.sh | COMPANION_BUILD="{{ companion_release.json.tag_name }}" bash
+
+- name: Disable and stop service companion
+  ansible.builtin.service:
+    name: companion
+    enabled: no
+    state: stopped
+
+- name: Remove all files and folders from "{{ gluster_mount_dir }}"
+  ansible.builtin.file:
+    path: "{{ gluster_mount_dir }}"
+    state: absent
+
+- name: Ensure mount directory exists
+  file:
+    path: "{{ gluster_mount_dir }}"
+    state: directory
+    owner: companion
+    group: companion
+    mode: '0755'
+
+- name: Mount GlusterFS volume for Companion config
+  mount:
+    path: "{{ gluster_mount_dir }}"
+    src: "{{ inventory_hostname }}:/{{ gluster_volume_name }}"
+    fstype: glusterfs
+    opts: "noauto,defaults,_netdev,x-systemd.automount,x-systemd.device-timeout=10,x-systemd.requires=glusterd.service,backup-volfile-servers={{ groups['companion'] | reject('equalto', inventory_hostname) | join(':') }}"
+    state: mounted
+
+- name: Ensure fuse module is loaded at boot #this is needed because otherwise glusterfs will fail to mount the disk at boot
+  lineinfile:
+    path: /etc/modules
+    line: fuse
+    state: present
+
+- name: Set ownership of Companion mount to companion user
+  ansible.builtin.file:
+    path: "{{ gluster_mount_dir }}"
+    owner: companion
+    group: companion
+    state: directory
+  run_once: true

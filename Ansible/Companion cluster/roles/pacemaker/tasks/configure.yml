@@ -1,0 +1,74 @@
+---
+- name: Destroy existing cluster
+  ansible.builtin.command:
+    cmd: pcs cluster destroy --yes
+  register: cluster_destroy
+  changed_when: cluster_destroy.rc == 0
+
+- name: Authenticate all cluster nodes
+  ansible.builtin.command:
+    cmd: >-
+      pcs host auth
+      {% for h in groups['companion'] %}
+      {{ h }} addr={{ h }}
+      {% endfor %}
+      -u hacluster
+      -p {{ hacluster_password }}
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+  no_log: true
+  changed_when: true
+
+- name: Create the pacemaker cluster
+  ansible.builtin.command:
+    cmd: >-
+      pcs cluster setup {{ cluster_name }}
+      {% for h in groups['companion'] %}
+      {{ h }} addr={{ h }}
+      {% endfor %}
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+  register: cluster_create
+  changed_when: cluster_create.rc == 0
+  failed_when:
+    - cluster_create.rc != 0
+    - "'already exists' not in cluster_create.stderr"
+
+- name: Set corosync totem parameters
+  ansible.builtin.lineinfile:
+    path: "/etc/corosync/corosync.conf"
+    regexp: "^(\\s*){{ item.key }}\\s*:.*"
+    line: "    {{ item.key }}: {{ item.value }}"
+    backrefs: false
+  loop: "{{ corosync_params | dict2items }}"
+  notify: Reload corosync config
+
+- name: Enable and start pcsd
+  ansible.builtin.service:
+    name: pacemaker
+    state: started
+    enabled: true
+
+- name: Set cluster global properties for fast failover
+  command: >
+    pcs property set
+    stonith-enabled=false
+    dc-deadtime=5s
+    cluster-recheck-interval=1s
+#    start-failure-is-fatal=true
+#    no-quorum-policy=ignore
+
+- name: Restart pcsd
+  ansible.builtin.service:
+    name: pcsd
+    state: restarted
+    enabled: true
+
+- name: Show cluster status
+  ansible.builtin.command: pcs status
+  register: pcs_final
+  changed_when: false
+
+- name: Print cluster status
+  ansible.builtin.debug:
+    msg: "{{ pcs_final.stdout_lines }}"

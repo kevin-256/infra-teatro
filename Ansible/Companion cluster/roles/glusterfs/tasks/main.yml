@@ -1,0 +1,104 @@
+---
+- name: Install packages
+  apt:
+    name:
+      - parted
+      - glusterfs-server
+      - python3-setuptools
+    state: present
+    cache_valid_time: 86400
+
+- name: Add all hosts to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ hostvars[item].ansible_host | default(hostvars[item].inventory_hostname) }} {{ item }}"
+    state: present
+  loop: "{{ groups[gluster_group] }}"
+
+- name: Create a new ext4 primary partition
+  community.general.parted:
+    device: "{{ gluster_device }}"
+    number: 1
+    state: present
+    fs_type: ext4
+
+- name: Create ext4 filesystem on partition
+  community.general.filesystem:
+    fstype: ext4
+    dev: "{{ gluster_partition }}"
+
+- name: Create data directory
+  ansible.builtin.file:
+    path: "{{ gluster_data_dir }}"
+    state: directory
+
+- name: Get UUID of partition
+  ansible.builtin.command: blkid -s UUID -o value {{ gluster_partition }}
+  register: partition_uuid
+  changed_when: false
+
+- name: Add fstab entry and mount by UUID
+  ansible.builtin.mount:
+    path: "{{ gluster_data_dir }}"
+    src: "UUID={{ partition_uuid.stdout | trim }}"
+    fstype: ext4
+    opts: defaults
+    state: mounted
+
+- name: Start and enable glusterd
+  service:
+    name: glusterd
+    state: started
+    enabled: true
+
+- name: Create brick directory
+  file:
+    path: "{{ gluster_brick_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Probe peers from first node
+  gluster.gluster.gluster_peer:
+    state: present
+    nodes: "{{ groups[gluster_group][1:] }}"
+  run_once: true
+  delegate_to: "{{ groups[gluster_group][0] }}"
+
+- name: Create GlusterFS volume
+  gluster.gluster.gluster_volume:
+    state: present
+    name: "{{ gluster_volume_name }}"
+    bricks: "{{ gluster_brick_dir }}"
+    replicas: "groups['companion'] | length"
+    cluster: "{{ groups[gluster_group] }}"
+    force: true
+  run_once: true
+
+- name: Start GlusterFS volume
+  gluster.gluster.gluster_volume:
+    state: started
+    name: "{{ gluster_volume_name }}"
+  run_once: true
+
+- name: Tune GlusterFS volume options
+  gluster.gluster.gluster_volume:
+    state: present
+    name: "{{ gluster_volume_name }}"
+    options:
+      network.ping-timeout: "10"
+      cluster.favorite-child-policy: mtime
+  run_once: true
+
+- name: Create GlusterFS client mount directory
+  ansible.builtin.file:
+    path: "{{ gluster_mount_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Mount GlusterFS volume with automount and netdev options
+  ansible.builtin.mount:
+    path: "{{ gluster_mount_dir }}"
+    src: "{{ inventory_hostname }}:/{{ gluster_volume_name }}"
+    fstype: glusterfs
+    opts: defaults,_netdev,x-systemd.automount
+    state: mounted

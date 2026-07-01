@@ -1,0 +1,21 @@
+---
+- name: Install Pacemaker packages
+  ansible.builtin.apt:
+    name:
+      - pacemaker
+      - pcs
+      - corosync
+      - fence-agents
+    state: present
+    cache_valid_time: 86400
+
+- name: Set hacluster password
+  ansible.builtin.shell: |
+    echo "hacluster:{{ hacluster_password }}" | chpasswd
+  no_log: true
+
+- name: Enable and start pcsd
+  ansible.builtin.service:
+    name: pcsd
+    state: started
+    enabled: true

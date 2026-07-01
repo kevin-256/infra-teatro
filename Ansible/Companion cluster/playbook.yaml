@@ -1,0 +1,12 @@
+---
+- name: Setup Companion cluster with glusterFS and Pacemaker
+  hosts: all
+  become: true
+  vars_prompt:
+    - name: "check first if the gluster disk is sdb and there are no partitions else stop"
+      prompt: "check first if the gluster disk is sdb and there are no partitions else stop (enter/ctrl+c)?"
+      private: no
+  roles:
+    - glusterfs
+    - companion
+    - pacemaker
