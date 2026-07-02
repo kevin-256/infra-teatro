@@ -1,0 +1,64 @@
+- name: Install PostgreSQL packages
+  ansible.builtin.apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+      - python3-psycopg2
+      - acl
+    state: latest
+    update_cache: true
+  become: true
+
+- name: Ensure PostgreSQL is started and enabled
+  ansible.builtin.service:
+    name: postgresql
+    state: started
+    enabled: true
+  become: true
+  
+
+- name: Create zabbix PostgreSQL user
+  community.postgresql.postgresql_user:
+    name: "{{ database_zabbix_user }}"
+    password: "{{ database_zabbix_password }}"
+    role_attr_flags: "LOGIN"
+  become: true
+  become_user: postgres
+
+- name: Create Zabbix database
+  community.postgresql.postgresql_db:
+    name: "{{ database_name }}"
+    owner: "{{ database_zabbix_user }}"
+    encoding: UTF8
+    template: template0
+  become: true
+  become_user: postgres
+
+- name: Grant schema privileges
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    db: "{{ database_name }}"
+    role: "{{ database_zabbix_user }}"
+    type: schema
+    objs: public
+    privs: ALL
+
+- name: Get installed PostgreSQL major version
+  ansible.builtin.command: psql -V
+  register: psql_version
+  changed_when: false
+
+- name: Set PostgreSQL major version
+  ansible.builtin.set_fact:
+    postgresql_version: "{{ psql_version.stdout | regex_search('([0-9]+)\\.', '\\1') | first }}"
+
+- name: Allow zabbix user local password auth
+  community.postgresql.postgresql_pg_hba:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    contype: local
+    databases: "{{ database_name }}"
+    users: "{{ database_zabbix_user }}"
+    method: md5 #scram-sha-256
+  become: true
+  notify: Restart PostgreSQL

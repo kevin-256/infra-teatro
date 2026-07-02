@@ -1,0 +1,6 @@
+all:
+  hosts:
+    zabbix_server:
+      ansible_host: zabbix-teatro
+      ansible_user: kevin
+      ansible_become_method: sudo

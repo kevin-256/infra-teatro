@@ -1,0 +1,77 @@
+- name: Downloading Zabbix .deb
+  ansible.builtin.get_url:
+    url: "{{ zabbix_download_url }}"
+    dest: /tmp/zabbix_server.deb
+    mode: "0644"
+
+- name: Install zabbix server package
+  ansible.builtin.apt:
+    deb: /tmp/zabbix_server.deb
+  become: true
+
+- name: Update apt cache after adding Zabbix repo
+  apt:
+    name:
+    - zabbix-server-pgsql
+    - zabbix-frontend-php
+    - php8.4-pgsql
+    - zabbix-nginx-conf
+    - zabbix-sql-scripts
+    - zabbix-agent2
+    state: latest
+    cache_valid_time: yes
+  become: true
+
+- name: Check if Zabbix schema already exists
+  become: true
+  become_user: postgres
+  ansible.builtin.shell: >
+    psql -d {{ database_name }} -tAc "SELECT to_regclass('public.users')"
+  register: schema_check
+  changed_when: false
+- name: Ensure target directory exists
+  ansible.builtin.file:
+    path: /tmp/pg_restore
+    state: directory
+    mode: "0755"
+  when: schema_check.stdout.strip() == ""
+
+- name: Copy dump file to remote host (if not already there)
+  ansible.builtin.copy:
+    src: /usr/share/zabbix/sql-scripts/postgresql/server.sql.gz
+    dest: /tmp/pg_restore/server.sql.gz
+    remote_src: yes
+  when: schema_check.stdout.strip() == ""
+
+- name: Decompress dump
+  ansible.builtin.command: gunzip -f /tmp/pg_restore/server.sql.gz
+  when: schema_check.stdout.strip() == ""
+
+- name: Import Zabbix schema
+  community.postgresql.postgresql_db:
+    name: "{{ database_name }}"
+    state: restore
+    target: /tmp/pg_restore/server.sql
+    login_host: 127.0.0.1
+    login_user: "{{ database_zabbix_user }}"
+    login_password: "{{ database_zabbix_password }}"
+  when: schema_check.stdout.strip() == ""
+  # no_log: true
+
+- name: Remove default Nginx site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  become: true
+
+- name: Enable and restart services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: restarted
+  loop:
+    - zabbix-server
+    - zabbix-agent2
+    - nginx
+    - php8.4-fpm
+  become: true

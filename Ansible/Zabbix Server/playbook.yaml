@@ -1,0 +1,12 @@
+- name: Install postgres and Zabbix
+  hosts: zabbix_server
+  vars:
+    database_name: "zabbix"
+    database_zabbix_user: "zabbix"
+    database_zabbix_password: "zabbix"
+    zabbix_server_name: "Teatro"
+
+    zabbix_download_url: https://repo.zabbix.com/zabbix/7.4/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.4+debian13_all.deb
+  roles:
+    - role: Install_and_configure_postgres
+    - role: Install_and_configure_zabbix_server
