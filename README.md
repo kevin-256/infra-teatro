@@ -16,6 +16,7 @@
 | 10.69.10.252   | Companion              |             |
 | 10.69.10.251   | Centralino             |             |
 | 10.69.10.250   | Ubiquiti Controller    |             |
+| 10.69.10.249   | Rustdesk-server        |             |
 |                |                        |             |
 | 10.69.10.162   | Router Palco           |             |
 | 10.69.10.161   | Router Regia           |             |
