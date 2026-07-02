@@ -1,0 +1,12 @@
+- name: Setup rustdesk severs
+  hosts: rustdesk-servers
+  tasks:
+    - name: Install unzip on Debian/Ubuntu
+      become: true
+      apt:
+        name: unzip
+        state: present
+        update_cache: yes
+        cache_valid_time: 3600
+  roles:
+    - role: roles-ansible.rustdesk
