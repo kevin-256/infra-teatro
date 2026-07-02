@@ -1,4 +1,4 @@
 rustdesk-servers:
   hosts:
     rustdesk-server-1:
-      ansible_host: rustdesk
+      ansible_host: rustdesk-teatro
