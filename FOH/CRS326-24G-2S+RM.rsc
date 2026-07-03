@@ -156,7 +156,7 @@ set switch1 qos-hw-offloading=yes
 
 # SNMP
 /snmp/set enabled=yes location="Front of House"
-/snmp community add name=public addresses=10.69.10.0/24 read-access=yes
+/snmp community set 0 name=public addresses=10.69.10.0/24 read-access=yes
 
 # Setup user
 /user/add name=kevin password=CHANGE_THIS_PASSWORD group=full
