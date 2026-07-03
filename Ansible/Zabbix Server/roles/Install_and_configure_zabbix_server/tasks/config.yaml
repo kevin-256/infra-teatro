@@ -1,0 +1,39 @@
+- name: Setting Zabbix database name
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^DBName='
+    line: "DBName={{ database_name }}"
+  become: true
+
+- name: Setting Zabbix database user
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^DBUser='
+    line: "DBUser={{ database_zabbix_user }}"
+  become: true
+
+- name: Setting Zabbix database password
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^DBPassword='
+    line: "DBPassword={{ database_zabbix_password }}"
+  become: true
+
+- name: Frontend configuration file
+  become: true
+  ansible.builtin.template:
+    src: templates/zabbix.conf.php.j2
+    dest: /etc/zabbix/web/zabbix.conf.php
+    owner: www-data
+    group: www-data
+    mode: "0600"
+
+- name: Setting Dark mode as default
+  community.postgresql.postgresql_query:
+    db: "{{ database_name }}"
+    login_user: "{{ database_zabbix_user }}"
+    login_password: "{{ database_zabbix_password }}"
+    query: |
+      UPDATE users SET theme = 'dark-theme' WHERE theme = 'default';
+  become: true
+  become_user: postgres

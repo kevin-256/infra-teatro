@@ -64,6 +64,9 @@
     state: absent
   become: true
 
+- name: Setting configuration
+  ansible.builtin.import_tasks: config.yaml
+
 - name: Enable and restart services
   ansible.builtin.systemd:
     name: "{{ item }}"

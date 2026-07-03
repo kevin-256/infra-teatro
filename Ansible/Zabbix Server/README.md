@@ -12,3 +12,7 @@ Installare la collezione
 ```bash
 ansible-galaxy collection install community.postgresql
 ```
+
+# Login
+Username: admin
+Password: zabbix
