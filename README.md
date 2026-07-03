@@ -89,9 +89,9 @@
 | 10.69.40.254   | Gateway, DNS        |             |
 | 10.69.40.253   | DNS                 |             |
 | 10.69.40.252   | Mixer SQ6           |             |
-| 10.69.40.252   | Companion           |             |
-| 10.69.40.251   | Centralino          |             |
-| 10.69.40.250   | Ubiquiti Controller |             |
+| 10.69.40.251   | Companion           |             |
+| 10.69.40.250   | Centralino          |             |
+| 10.69.40.249   | Ubiquiti Controller |             |
 |                |                     |             |
 | 10.69.40.163   | Router wifi Palco   |             |
 | 10.69.40.162   | Router wifi Regia   |             |
