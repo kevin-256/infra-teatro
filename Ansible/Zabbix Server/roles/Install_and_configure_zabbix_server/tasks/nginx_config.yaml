@@ -1,0 +1,83 @@
+- name: Create SSL directory
+  file:
+    path: "/etc/nginx/ssl"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Generate private key
+  community.crypto.openssl_privatekey:
+    path: /etc/nginx/ssl/nginx-selfsigned.key
+    type: RSA
+    size: 4096
+    mode: '0600'
+  become: true
+
+- name: Generate self-signed certificate
+  community.crypto.x509_certificate:
+    path: /etc/nginx/ssl/certificate.pem
+    privatekey_path: /etc/nginx/ssl/nginx-selfsigned.key
+    provider: selfsigned
+    selfsigned_not_after: "+3650d"
+  become: true
+
+- name: Set certificate permissions
+  ansible.builtin.file:
+    path: /etc/nginx/ssl/certificate.pem
+    owner: root
+    group: www-data
+    mode: "0644"
+  become: true
+
+- name: Set private key permissions
+  ansible.builtin.file:
+    path: /etc/nginx/ssl/nginx-selfsigned.key
+    owner: root
+    group: www-data
+    mode: "0640"
+  become: true
+
+- name: Ensure SSL configuration inside server block
+  ansible.builtin.blockinfile:
+    path: /etc/nginx/conf.d/zabbix.conf
+    marker: "# {mark} ANSIBLE MANAGED SSL CONFIG"
+    insertafter: "server \\{"
+    block: |
+      listen 443 ssl;
+      ssl_certificate /etc/nginx/ssl/certificate.pem;
+      ssl_certificate_key /etc/nginx/ssl/nginx-selfsigned.key;
+  become: true
+
+- name: Ensure server_name exists
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/conf.d/zabbix.conf
+    regexp: '^\s*server_name\b'
+    line: '    server_name _;'
+    insertafter: '^\s*server\s*\{'
+  become: true
+
+- name: Add HTTP redirect block (only once)
+  blockinfile:
+    path: "/etc/nginx/conf.d/zabbix.conf"
+    marker: "# {mark} ANSIBLE HTTP REDIRECT"
+    prepend_newline: yes
+    block: |
+      server {
+          listen 80;
+          server_name _;
+          return 301 https://$host$request_uri;
+      }
+  become: true
+
+- name: Validate nginx config
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+  become: true
+
+- name: Restart nginx if valid
+  service:
+    name: nginx
+    state: restarted
+  when: nginx_test.rc == 0
+  become: true

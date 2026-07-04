@@ -18,6 +18,8 @@
     - zabbix-nginx-conf
     - zabbix-sql-scripts
     - zabbix-agent2
+    - openssl
+    - python3-cryptography
     state: latest
     cache_valid_time: yes
   become: true
@@ -29,6 +31,7 @@
     psql -d {{ database_name }} -tAc "SELECT to_regclass('public.users')"
   register: schema_check
   changed_when: false
+
 - name: Ensure target directory exists
   ansible.builtin.file:
     path: /tmp/pg_restore
@@ -64,8 +67,12 @@
     state: absent
   become: true
 
-- name: Setting configuration
-  ansible.builtin.import_tasks: config.yaml
+- name: Zabbix configuration
+  ansible.builtin.import_tasks: zabbix_config.yaml
+
+- name: Nginx configuration
+  ansible.builtin.import_tasks: nginx_config.yaml
+
 
 - name: Enable and restart services
   ansible.builtin.systemd:

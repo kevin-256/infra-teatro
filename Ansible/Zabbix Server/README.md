@@ -8,11 +8,11 @@ Host zabbix-teatro
         IdentityFile ~/.ssh/<chiave ssh>
 ```
 
-Installare la collezione 
+Installare i requirements
 ```bash
-ansible-galaxy collection install community.postgresql
+ansible-galaxy collection install -r requirements.yml
 ```
 
 # Login
-Username: admin
+Username: Admin
 Password: zabbix
