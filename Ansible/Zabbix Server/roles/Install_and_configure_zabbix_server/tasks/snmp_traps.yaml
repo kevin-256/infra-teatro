@@ -1,0 +1,60 @@
+- name: Installing snmp traps packages
+  apt:
+    name:
+    - snmpd
+    - snmp
+    - libsnmp-dev
+    - snmptrapd
+    state: latest
+    cache_valid_time: yes
+  become: true
+
+# TODO Setting up firewall to allow traps listening
+
+- name: Download Zabbix trap receiver script
+  ansible.builtin.get_url:
+    url: "https://git.zabbix.com/projects/ZBX/repos/zabbix/raw/misc/snmptrap/zabbix_trap_receiver.pl"
+    dest: "/usr/local/bin/zabbix_trap_receiver.pl"
+    mode: "0755"
+  become: true
+
+- name: Setting log file location for Traps perl
+  ansible.builtin.lineinfile:
+    path: /usr/local/bin/zabbix_trap_receiver.pl
+    regexp: '^\$SNMPTrapperFile'
+    line: "$SNMPTrapperFile = '/var/log/zabbix/zabbix_snmp_traps.log';"
+  become: true
+
+- name: Setting log file location for Traps
+  ansible.builtin.lineinfile:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^SNMPTrapperFile'
+    line: "SNMPTrapperFile = '/var/log/zabbix/zabbix_snmp_traps.log'"
+  become: true
+
+- name: Ensure SNMP trapper is enabled
+  ansible.builtin.replace:
+    path: /etc/zabbix/zabbix_server.conf
+    regexp: '^#?\s*StartSNMPTrapper\s*=\s*0\s*$'
+    replace: '^StartSNMPTrapper=1'
+  become: true
+
+- name: Create empty Zabbix SNMP traps log file if not exists
+  ansible.builtin.file:
+    path: /var/log/zabbix/zabbix_snmp_traps.log
+    state: touch
+    owner: Debian-snmp
+    group: Debian-snmp
+    mode: "0755"
+  become: true
+
+# TODO add logrotate here for /var/log/zabbix/zabbix_snmp_traps.log
+
+- name: Add Zabbix trap receiver configuration to snmptrapd.conf
+  ansible.builtin.blockinfile:
+    path: /etc/snmp/snmptrapd.conf
+    marker: "# {mark} ANSIBLE ZABBIX TRAP RECEIVER"
+    block: |
+      authCommunity execute public
+      perl do "/usr/local/bin/zabbix_trap_receiver.pl";
+  become: true

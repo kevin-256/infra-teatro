@@ -70,6 +70,9 @@
 - name: Zabbix configuration
   ansible.builtin.import_tasks: zabbix_config.yaml
 
+- name: SNMP Traps configuration
+  ansible.builtin.import_tasks: snmp_traps.yaml
+
 - name: Nginx configuration
   ansible.builtin.import_tasks: nginx_config.yaml
 
