@@ -204,7 +204,9 @@ set switch1 qos-hw-offloading=yes
 
 
 # SNMP
-/snmp set enabled=yes contact="FOH Network" location="FOH Rack"
+/snmp/set enabled=yes location="Front of House"
+/snmp community set 0 name=public addresses=10.69.10.0/24 read-access=yes
+
 
 # Security
 /ip firewall filter

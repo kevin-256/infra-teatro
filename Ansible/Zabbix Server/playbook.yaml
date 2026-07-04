@@ -8,6 +8,6 @@
 
     zabbix_download_url: https://repo.zabbix.com/zabbix/7.4/release/debian/pool/main/z/zabbix-release/zabbix-release_latest_7.4+debian13_all.deb
   roles:
-    # - role: Install_and_configure_postgres
-    # - role: Install_and_configure_zabbix_server
+    - role: Install_and_configure_postgres
+    - role: Install_and_configure_zabbix_server
     - role: Adding_monitored_devices
