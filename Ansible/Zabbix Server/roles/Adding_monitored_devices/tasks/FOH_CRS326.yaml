@@ -1,0 +1,86 @@
+- name: Get IP in 10.69.10.0/24
+  set_fact:
+    zabbix_monitoring_ip: >-
+      {{
+        ansible_all_ipv4_addresses
+        | select('match', '^10\.69\.10\.')
+        | first
+      }}
+
+- name: Create host groups
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: ""
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  delegate_to: "{{ zabbix_monitoring_ip }}"
+  community.zabbix.zabbix_group:
+    state: present
+    host_groups:
+      - Networking
+      - Switch
+
+- name: Add FOH CRS326-24G-2S+RM to Zabbix
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: ""
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+
+  become: false
+  delegate_to: "{{ zabbix_monitoring_ip }}"
+
+  community.zabbix.zabbix_host:
+    host_name: "FOH_CRS326"
+    visible_name: "CRS326 FOH Switch"
+    description: "MikroTik CRS326-24G-2S+RM Front Of House Switch"
+
+    host_groups:
+      - Networking
+      - Switch
+    link_templates:
+      - MikroTik CRS326-24G-2SRM by SNMP
+
+    status: enabled
+    state: present
+
+    interfaces:
+      - type: snmp
+        main: 1
+        useip: 1
+        ip: "10.69.10.151"
+        dns: ""
+        port: "161"
+        details:
+          version: 2
+          bulk: 1
+          community: "public"
+
+- name: Create temperature trigger for FOH CRS326
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: ""
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  delegate_to: "{{ zabbix_monitoring_ip }}"
+  community.zabbix.zabbix_trigger:
+    host_name: "FOH_CRS326"
+    name: "CRS326 FOH Switch temperature too high"
+    state: present
+    params:
+      severity: high
+      expression: ''
+      enabled: true
+      manual_close: true

@@ -29,7 +29,7 @@
   ansible.builtin.lineinfile:
     path: /etc/zabbix/zabbix_server.conf
     regexp: '^SNMPTrapperFile'
-    line: "SNMPTrapperFile = '/var/log/zabbix/zabbix_snmp_traps.log'"
+    line: "SNMPTrapperFile=/var/log/zabbix/zabbix_snmp_traps.log"
   become: true
 
 - name: Ensure SNMP trapper is enabled

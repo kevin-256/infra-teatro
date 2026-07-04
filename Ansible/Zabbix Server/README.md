@@ -10,7 +10,12 @@ Host zabbix-teatro
 
 Installare i requirements
 ```bash
-ansible-galaxy collection install -r requirements.yml
+ansible-galaxy collection install -r requirements.yaml
+```
+
+## Run Playbook
+```bash
+ansible-playbook -i inventory.yaml playbook.yaml -K --ssh-common-args='-o StrictHostKeyChecking=accept-new' -v
 ```
 
 # Login
