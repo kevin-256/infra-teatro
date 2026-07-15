@@ -3,7 +3,7 @@
 # =========================
 
 # Device Name
-/system identity set name=FOH-Switch
+/system identity set name=STAGE-Switch
 
 
 # Time Zone
@@ -17,23 +17,20 @@ add address=ntp1.lab
 add address=ntp.ccpm
 
 # Disabling useless ports
+/interface ethernet set ether3 disabled=yes
 /interface ethernet set ether5 disabled=yes
+/interface ethernet set ether7 disabled=yes
 
 /interface ethernet set ether9 disabled=yes
 /interface ethernet set ether10 disabled=yes
 /interface ethernet set ether11 disabled=yes
-
-/interface ethernet set ether17 disabled=yes
-/interface ethernet set ether18 disabled=yes
+/interface ethernet set ether14 disabled=yes
+/interface ethernet set ether15 disabled=yes
+/interface ethernet set ether16 disabled=yes
 
 /interface ethernet set sfp-sfpplus1 disabled=yes
 /interface ethernet set sfp-sfpplus2 disabled=yes
 
-
-# Link Aggregation interfaces
-/interface bonding add name=bond_proxmox mode=802.3ad slaves=ether21,ether22 transmit-hash-policy=layer-2-and-3 lacp-rate=1sec
-/interface bonding
-set bond_proxmox mtu=1500
 
 # Management Bridge
 /interface bridge add name=bridge mtu=1500 protocol-mode=mstp
@@ -42,38 +39,37 @@ set bond_proxmox mtu=1500
 # Add Switch Ports Access
 /interface bridge port
 add bridge=bridge interface=ether1 pvid=10 frame-types=admit-only-untagged-and-priority-tagged
-add bridge=bridge interface=ether6 pvid=40 frame-types=admit-only-untagged-and-priority-tagged
-add bridge=bridge interface=ether7 pvid=40 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether4 pvid=10 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether8 pvid=9  frame-types=admit-only-untagged-and-priority-tagged
+
 
 add bridge=bridge interface=ether12 pvid=60 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether13 pvid=50 frame-types=admit-only-untagged-and-priority-tagged
-add bridge=bridge interface=ether14 pvid=40 frame-types=admit-only-untagged-and-priority-tagged
-add bridge=bridge interface=ether15 pvid=30 frame-types=admit-only-untagged-and-priority-tagged
-add bridge=bridge interface=ether16 pvid=20 frame-types=admit-only-untagged-and-priority-tagged
 
-add bridge=bridge interface=ether20 pvid=40 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether17 pvid=30 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether18 pvid=20 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether19 pvid=30 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether20 pvid=20 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether21 pvid=30 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether22 pvid=20 frame-types=admit-only-untagged-and-priority-tagged
 
 
 # Add Switch Ports Trunk
 /interface bridge port
 add bridge=bridge interface=ether2 ingress-filtering=yes frame-types=admit-only-vlan-tagged
-add bridge=bridge interface=ether3 ingress-filtering=yes frame-types=admit-only-vlan-tagged
-add bridge=bridge interface=ether4 ingress-filtering=yes frame-types=admit-only-vlan-tagged
+add bridge=bridge interface=ether6 ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
-add bridge=bridge interface=ether19      ingress-filtering=yes frame-types=admit-only-vlan-tagged
-add bridge=bridge interface=bond_proxmox ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether23      ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether24      ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
 /interface bridge vlan
-add bridge=bridge vlan-ids=9  tagged=bridge,ether2,bond_proxmox,ether23,ether24                       untagged=ether8
-add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether3,ether4,ether19,bond_proxmox,ether23,ether24 untagged=ether1
-add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether19,bond_proxmox,ether23                       untagged=ether16,ether24
-add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether19,bond_proxmox,ether24                       untagged=ether15
-add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether3,ether4,ether19,bond_proxmox,ether23,ether24 untagged=ether6,ether7,ether14,ether20
-add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether19,bond_proxmox,ether23,ether24               untagged=ether13
-add bridge=bridge vlan-ids=60 tagged=bridge,ether2,bond_proxmox,ether23,ether24                       untagged=ether12
+add bridge=bridge vlan-ids=9  tagged=bridge,ether2,ether23,ether24                            untagged=ether8
+add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether23,ether24                            untagged=ether1,ether4
+add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether23,ether24                            untagged=ether18,ether20,ether22
+add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether23,ether24                            untagged=ether17,ether19,ether21
+add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether6,ether23,ether24
+add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether23,ether24                            untagged=ether13
+add bridge=bridge vlan-ids=60 tagged=bridge,ether2,ether23,ether24                            untagged=ether12
 
 # Enabling VLAN Filtering
 /interface bridge
@@ -92,12 +88,12 @@ add name=video_vlan60          interface=bridge vlan-id=60
 
 # Adding ip address to interfaces
 /ip address
-add address=10.69.10.151/24 comment=defconf interface=management_vlan10    network=10.69.10.0
-add address=10.69.20.151/24 comment=defconf interface=dante_primary_vlan20 network=10.69.20.0
-add address=10.69.30.151/24 comment=defconf interface=dante_backup_vlan30  network=10.69.30.0
-add address=10.69.40.151/24 comment=defconf interface=mixer_control_vlan40 network=10.69.40.0
-add address=10.69.50.151/24 comment=defconf interface=artnet_vlan50        network=10.69.50.0
-add address=10.69.60.151/24 comment=defconf interface=video_vlan60         network=10.69.60.0
+add address=10.69.10.153/24 comment=defconf interface=management_vlan10    network=10.69.10.0
+add address=10.69.20.153/24 comment=defconf interface=dante_primary_vlan20 network=10.69.20.0
+add address=10.69.30.153/24 comment=defconf interface=dante_backup_vlan30  network=10.69.30.0
+add address=10.69.40.153/24 comment=defconf interface=mixer_control_vlan40 network=10.69.40.0
+add address=10.69.50.153/24 comment=defconf interface=artnet_vlan50        network=10.69.50.0
+add address=10.69.60.153/24 comment=defconf interface=video_vlan60         network=10.69.60.0
 
 # VRRP
 /interface vrrp
@@ -120,12 +116,12 @@ add address=10.69.60.254/24 comment=defconf interface=vrrp_video_vlan60         
 
 # DHCP Server
 /ip pool
-add name=management_vlan10    ranges=10.69.10.1-10.69.10.50
-add name=dante_primary_vlan20 ranges=10.69.20.1-10.69.20.50
-add name=dante_backup_vlan30  ranges=10.69.30.1-10.69.30.50
-add name=mixer_control_vlan40 ranges=10.69.40.1-10.69.40.50
-add name=artnet_vlan50        ranges=10.69.50.1-10.69.50.50
-add name=video_vlan60         ranges=10.69.60.1-10.69.60.50
+add name=management_vlan10    ranges=10.69.10.51-10.69.10.100
+add name=dante_primary_vlan20 ranges=10.69.20.51-10.69.20.100
+add name=dante_backup_vlan30  ranges=10.69.30.51-10.69.30.100
+add name=mixer_control_vlan40 ranges=10.69.40.51-10.69.40.100
+add name=artnet_vlan50        ranges=10.69.50.51-10.69.50.100
+add name=video_vlan60         ranges=10.69.60.51-10.69.60.100
 
 
 /ip dhcp-server

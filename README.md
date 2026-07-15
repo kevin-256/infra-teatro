@@ -27,7 +27,10 @@
 ## management
 **Network**: 10.69.10.0/24\
 **VLAN**: 10\
-**Pool DHCP**: 10.69.10.1-100
+**Pool DHCP** (10.69.10.1-100): 
+- FOH Switch:   10.69.10.1-50
+- Stage Switch: 10.69.10.51-100
+
 | ip             | device                 | MAC address |
 |----------------|------------------------|-------------|
 | 10.69.10.254   | Gateway                |             |
@@ -45,11 +48,16 @@
 | 10.69.10.155   | Switch Netgear GS305EP |             |
 | 10.69.10.153   | Mikrotik Switch Stage  |             |
 | 10.69.10.151   | Mikrotik Switch FOH    |             |
+|                |                        |             |
+| 10.69.10.1-100 | Pool DHCP              |             |
 
 ## dante_primary
 **Network**: 10.69.20.0/24\
 **VLAN**: 20\
-**Pool DHCP**: 10.69.20.1-100
+**Pool DHCP**: (10.69.20.1-100):
+- FOH Switch:   10.69.20.1-50
+- Stage Switch: 10.69.20.51-100
+
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.20.254   | Gateway             |             |
@@ -60,13 +68,18 @@
 |                |                     |             |
 | 10.69.20.151   | Mikrotik Switch FOH |             |
 |                |                     |             |
-| 10.69.20.101   | StageBox1           |             |
 | 10.69.20.102   | StageBox2           |             |
+| 10.69.20.101   | StageBox1           |             |
+|                |                     |             |
+| 10.69.20.1-100 | Pool DHCP           |             |
 
 ## dante_backup
 **Network**: 10.69.30.0/24\
 **VLAN**: 30\
-**Pool DHCP**: 10.69.30.1-100
+**Pool DHCP** (10.69.30.1-100):
+- FOH Switch:   10.69.30.1-50
+- Stage Switch: 10.69.30.51-100
+
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.30.254   | Gateway             |             |
@@ -79,11 +92,16 @@
 |                |                     |             |
 | 10.69.30.102   | StageBox2           |             |
 | 10.69.30.101   | StageBox1           |             |
+|                |                     |             |
+| 10.69.30.1-100 | Pool DHCP           |             |
 
 ## mixer_control
 **Network**: 10.69.40.0/24\
 **VLAN**: 40\
-**Pool DHCP**: 10.69.40.1-100
+**Pool DHCP** (10.69.40.1-100):
+- FOH Switch:   10.69.40.1-50
+- Stage Switch: 10.69.40.51-100
+
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.40.254   | Gateway, DNS        |             |
@@ -109,7 +127,10 @@
 ## artnet
 **Network**: 10.69.50.0/24\
 **VLAN**: 50\
-**Pool DHCP**: 10.69.50.1-100
+**Pool DHCP** (10.69.50.1-100):
+- FOH Switch:   10.69.50.1-50
+- Stage Switch: 10.69.50.51-100
+
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.50.254   | Gateway             |             |
@@ -124,7 +145,10 @@
 ## video
 **Network**: 10.69.60.0/24\
 **VLAN**: 60\
-**Pool DHCP**: 10.69.60.1-100
+**Pool DHCP** (10.69.60.1-100):
+- FOH Switch:   10.69.60.1-50
+- Stage Switch: 10.69.60.51-100
+
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.60.254   | Gateway, DNS        |             |
