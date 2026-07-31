@@ -35,8 +35,8 @@ add address=ntp.ccpm
 /interface bonding
 set bond_proxmox mtu=1500
 
-# Management Bridge
-/interface bridge add name=bridge mtu=1500 protocol-mode=mstp
+# Management Bridge and Enabling VLAN Filtering
+/interface bridge add name=bridge mtu=1500 protocol-mode=mstp vlan-filtering=yes ingress-filtering=yes
 
 
 # Add Switch Ports Access
@@ -69,15 +69,11 @@ add bridge=bridge interface=ether24      ingress-filtering=yes frame-types=admit
 /interface bridge vlan
 add bridge=bridge vlan-ids=9  tagged=bridge,ether2,bond_proxmox,ether23,ether24                       untagged=ether8
 add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether3,ether4,ether19,bond_proxmox,ether23,ether24 untagged=ether1
-add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether19,bond_proxmox,ether23                       untagged=ether16,ether24
+add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether19,bond_proxmox,ether23                       untagged=ether16
 add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether19,bond_proxmox,ether24                       untagged=ether15
 add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether3,ether4,ether19,bond_proxmox,ether23,ether24 untagged=ether6,ether7,ether14,ether20
 add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether19,bond_proxmox,ether23,ether24               untagged=ether13
 add bridge=bridge vlan-ids=60 tagged=bridge,ether2,bond_proxmox,ether23,ether24                       untagged=ether12
-
-# Enabling VLAN Filtering
-/interface bridge
-set bridge vlan-filtering=yes ingress-filtering=yes
 
 
 # Adding virtual interface 
@@ -101,12 +97,12 @@ add address=10.69.60.151/24 comment=defconf interface=video_vlan60         netwo
 
 # VRRP
 /interface vrrp
-add name=vrrp_management_vlan10    interface=management_vlan10    vrid=10 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_dante_primary_vlan20 interface=dante_primary_vlan20 vrid=20 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_dante_backup_vlan30  interface=dante_backup_vlan30  vrid=30 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_mixer_control_vlan40 interface=mixer_control_vlan40 vrid=40 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_artnet_vlan50        interface=artnet_vlan50        vrid=50 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_video_vlan60         interface=video_vlan60         vrid=60 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+add name=vrrp_management_vlan10    interface=management_vlan10    vrid=10 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+add name=vrrp_dante_primary_vlan20 interface=dante_primary_vlan20 vrid=20 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+add name=vrrp_dante_backup_vlan30  interface=dante_backup_vlan30  vrid=30 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+add name=vrrp_mixer_control_vlan40 interface=mixer_control_vlan40 vrid=40 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+add name=vrrp_artnet_vlan50        interface=artnet_vlan50        vrid=50 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+add name=vrrp_video_vlan60         interface=video_vlan60         vrid=60 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
 #Ip address vRRP
 /ip address
 add address=10.69.10.254/24 comment=defconf interface=vrrp_management_vlan10    network=10.69.10.0
@@ -211,6 +207,7 @@ set switch1 qos-hw-offloading=yes
 add chain=input action=accept connection-state=established,related
 add chain=input action=drop connection-state=invalid
 add chain=input action=accept protocol=112 comment="VRRP"
+add chain=input action=accept protocol=ipsec-ah comment="VRRP AH"
 add chain=input action=accept in-interface-list=MANAGEMENT comment="ALLOW all from MANAGEMENT"
 add chain=input action=drop log=yes log-prefix="DROP input"
 /ip service

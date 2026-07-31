@@ -1,5 +1,5 @@
 # =========================
-# FOH Switch
+# STAGE Switch
 # =========================
 
 # Device Name
@@ -32,8 +32,8 @@ add address=ntp.ccpm
 /interface ethernet set sfp-sfpplus2 disabled=yes
 
 
-# Management Bridge
-/interface bridge add name=bridge mtu=1500 protocol-mode=mstp
+# Management Bridge and Enabling VLAN Filtering
+/interface bridge add name=bridge mtu=1500 protocol-mode=mstp vlan-filtering=yes ingress-filtering=yes
 
 
 # Add Switch Ports Access
@@ -70,10 +70,6 @@ add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether23,ether24              
 add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether6,ether23,ether24
 add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether23,ether24                            untagged=ether13
 add bridge=bridge vlan-ids=60 tagged=bridge,ether2,ether23,ether24                            untagged=ether12
-
-# Enabling VLAN Filtering
-/interface bridge
-set bridge vlan-filtering=yes ingress-filtering=yes
 
 
 # Adding virtual interface 
@@ -207,6 +203,7 @@ set switch1 qos-hw-offloading=yes
 add chain=input action=accept connection-state=established,related
 add chain=input action=drop connection-state=invalid
 add chain=input action=accept protocol=112 comment="VRRP"
+add chain=input action=accept protocol=ipsec-ah comment="VRRP AH"
 add chain=input action=accept in-interface-list=MANAGEMENT comment="ALLOW all from MANAGEMENT"
 add chain=input action=drop log=yes log-prefix="DROP input"
 /ip service
