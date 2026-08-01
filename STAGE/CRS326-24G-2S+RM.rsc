@@ -64,7 +64,7 @@ add bridge=bridge interface=ether24      ingress-filtering=yes frame-types=admit
 
 /interface bridge vlan
 add bridge=bridge vlan-ids=9  tagged=bridge,ether2,ether23,ether24                            untagged=ether8
-add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether23,ether24                            untagged=ether1,ether4
+add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether6,ether23,ether24                     untagged=ether1,ether4
 add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether23,ether24                            untagged=ether18,ether20,ether22
 add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether23,ether24                            untagged=ether17,ether19,ether21
 add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether6,ether23,ether24
