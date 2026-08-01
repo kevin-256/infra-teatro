@@ -95,6 +95,12 @@ add address=10.69.40.151/24 comment=defconf interface=mixer_control_vlan40 netwo
 add address=10.69.50.151/24 comment=defconf interface=artnet_vlan50        network=10.69.50.0
 add address=10.69.60.151/24 comment=defconf interface=video_vlan60         network=10.69.60.0
 
+#Adding route to internet
+/ip route add dst-address=0.0.0.0/0 gateway=10.69.10.254
+
+#Adding dns
+/ip dns set servers=10.69.10.253
+
 # VRRP
 /interface vrrp
 add name=vrrp_management_vlan10    interface=management_vlan10    vrid=10 priority=150 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
