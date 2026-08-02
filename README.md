@@ -21,6 +21,9 @@
 9. Lanciare il comando `/system/reset-configuration no-defaults=yes skip-backup=yes run-after-reset=file_caricato.rcs` con nome del file giusto e poi aspettare che si riavvi
 10. Confermare premendo `y`
 
+##
+DNS is 10.69.10.253 for everyone
+
 ## wan
 **Network**: DHCP\
 **VLAN**: 09
@@ -64,7 +67,7 @@
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.20.254   | Gateway             |             |
-| 10.69.20.253   | DNS                 |             |
+|                |                     |             |
 | 10.69.20.252   | Mixer SQ6           |             |
 | 10.69.20.251   | Companion           |             |
 |                |                     |             |
@@ -87,7 +90,7 @@
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.30.254   | Gateway             |             |
-| 10.69.30.253   | DNS                 |             |
+|                |                     |             |
 | 10.69.30.252   | Mixer SQ6           |             |
 | 10.69.30.251   | Companion           |             |
 |                |                     |             |
@@ -110,7 +113,7 @@
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.40.254   | Gateway, DNS        |             |
-| 10.69.40.253   | DNS                 |             |
+|                |                     |             |
 | 10.69.40.252   | Mixer SQ6           |             |
 | 10.69.40.251   | Companion           |             |
 | 10.69.40.250   | Centralino          |             |
@@ -139,7 +142,7 @@
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.50.254   | Gateway             |             |
-| 10.69.50.253   | DNS                 |             |
+|                |                     |             |
 | 10.69.50.252   | Mixer SQ6           |             |
 | 10.69.50.251   | Companion           |             |
 | 10.69.50.250   | Lampy               |             |
@@ -157,7 +160,6 @@
 | ip             | device              | MAC address |
 |----------------|---------------------|-------------|
 | 10.69.60.254   | Gateway, DNS        |             |
-| 10.69.60.253   | DNS                 |             |
 |                |                     |             |
 | 10.69.60.251   | Companion           |             |
 |                |                     |             |
