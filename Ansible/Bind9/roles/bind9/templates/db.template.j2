@@ -1,0 +1,15 @@
+$TTL 300
+
+@   IN SOA dns.{{ item.domain }}. admin.{{ item.domain }}. (
+        {{ ansible_date_time.date | regex_replace('-', '') }}01
+        3600
+        1800
+        7200
+        86400
+)
+
+@       IN NS  dns.{{ item.domain }}.
+
+{% for record in item.records %}
+{{ record.name }} IN {{ record.type }} {{ record.address }}
+{% endfor %}

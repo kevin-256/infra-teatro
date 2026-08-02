@@ -1,0 +1,148 @@
+bind9_authoritative: true
+bind9_forward: true
+bind9_forward_servers:
+- 1.1.1.1
+- 1.0.0.1
+- 8.8.8.8
+- 4.4.4.4
+
+bind9_views:
+  - name: management
+    domain: ccpm
+    match_clients:
+      - 10.69.10.0/24
+      - 127.0.0.1/32
+  - name: dante_primary
+    domain: ccpm
+    match_clients:
+      - 10.69.20.0/24
+  - name: dante_backup
+    domain: ccpm
+    match_clients:
+      - 10.69.30.0/24
+  - name: mixer_control
+    domain: ccpm
+    match_clients:
+      - 10.69.40.0/24
+  - name: artnet
+    domain: ccpm
+    match_clients:
+      - 10.69.50.0/24
+  - name: video
+    domain: ccpm
+    match_clients:
+      - 10.69.60.0/24
+      
+
+bind9_zones:
+  - name: ccpm_management
+    domain: ccpm
+    view: management
+    file: db.ccpm.management
+    records:
+      - name: router
+        type: A
+        address: 10.69.10.254
+      - name: ntp
+        type: A
+        address: 10.69.10.254
+      - name: dns
+        type: A
+        address: 10.69.10.253
+      - name: pve
+        type: A
+        address: 10.69.10.252
+      - name: companion
+        type: A
+        address: 10.69.10.251
+      - name: ubiquiti
+        type: A
+        address: 10.69.10.250
+      - name: centralino
+        type: A
+        address: 10.69.10.249
+      - name: rustdesk
+        type: A
+        address: 10.69.10.248
+      - name: truenas
+        type: A
+        address: 10.69.10.247
+      - name: jellyfin
+        type: A
+        address: 10.69.10.246
+  - name: ccpm_dante_primary
+    domain: ccpm
+    view: dante_primary
+    file: db.ccpm.dante_primary
+    records:
+      - name: router
+        type: A
+        address: 10.69.20.254
+      - name: ntp
+        type: A
+        address: 10.69.20.254
+      - name: companion
+        type: A
+        address: 10.69.20.251
+  - name: ccpm_dante_backup
+    domain: ccpm
+    view: dante_backup
+    file: db.ccpm.dante_backup
+    records:
+      - name: router
+        type: A
+        address: 10.69.30.254
+      - name: ntp
+        type: A
+        address: 10.69.30.254
+      - name: companion
+        type: A
+        address: 10.69.10.251
+  - name: ccpm_mixer_control
+    domain: ccpm
+    view: mixer_control
+    file: db.ccpm.mixer_control
+    records:
+      - name: router
+        type: A
+        address: 10.69.40.254
+      - name: ntp
+        type: A
+        address: 10.69.40.254
+      - name: companion
+        type: A
+        address: 10.69.10.251
+      - name: centralino
+        type: A
+        address: 10.69.10.249
+  - name: ccpm_artnet
+    domain: ccpm
+    view: artnet
+    file: db.ccpm.artnet
+    records:
+      - name: router
+        type: A
+        address: 10.69.50.254
+      - name: ntp
+        type: A
+        address: 10.69.50.254
+      - name: companion
+        type: A
+        address: 10.69.10.251
+      - name: centralino
+        type: A
+        address: 10.69.10.249
+  - name: ccpm_video
+    domain: ccpm
+    view: video
+    file: db.ccpm.video
+    records:
+      - name: router
+        type: A
+        address: 10.69.60.254
+      - name: ntp
+        type: A
+        address: 10.69.60.254
+      - name: companion
+        type: A
+        address: 10.69.10.251

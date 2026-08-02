@@ -1,0 +1,52 @@
+{% for view in bind9_views %}
+view "{{ view.name }}" {
+
+    match-clients {
+{% for client in view.match_clients %}
+        {{ client }};
+{% endfor %}
+    };
+
+    recursion yes;
+    allow-recursion { any; };
+    zone "." {
+        type hint;
+        file "/usr/share/dns/root.hints";
+    };
+
+{% for zone in bind9_zones %}
+{% if zone.view == view.name %}
+    zone "{{ zone.domain }}" {
+        type master;
+        file "/etc/bind/zones/{{ zone.file }}";
+    };
+{% endif %}
+{% endfor %}
+};
+
+{% endfor %}
+
+view "default" {
+    match-clients {
+        any;
+    };
+    recursion yes;
+    allow-recursion {
+        any;
+    };
+    // Cache settings
+    max-cache-size 256M;
+    max-cache-ttl 86400;
+    max-ncache-ttl 3600;
+
+    response-policy {
+        zone "rpz";
+    };
+    
+    zone "." {
+        type hint;
+        file "/usr/share/dns/root.hints";
+    };
+
+    include "/etc/bind/named.conf.blocklist";
+};

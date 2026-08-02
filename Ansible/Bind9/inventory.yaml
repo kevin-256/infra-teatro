@@ -1,0 +1,6 @@
+dns_servers:
+  hosts:
+    dns01:
+      ansible_host: teatro-dns
+      ansible_user: kevin
+      ansible_become_method: sudo

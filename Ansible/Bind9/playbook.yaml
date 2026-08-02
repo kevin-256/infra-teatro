@@ -1,0 +1,7 @@
+- name: Configure Bind9 DNS server
+  hosts: dns_servers
+  become: true
+
+  roles:
+    - systemli.bind9
+    - bind9
