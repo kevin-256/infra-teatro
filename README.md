@@ -39,6 +39,8 @@
 | 10.69.10.251   | Companion              |             |
 | 10.69.10.250   | Ubiquiti Controller    |             |
 | 10.69.10.249   | Centralino             |             |
+| 10.69.10.248   | Truenas                |             |
+| 10.69.10.247   | Jellyfin               |             |
 |                |                        |             |
 | 10.69.10.163   | Router wifi Palco      |             |
 | 10.69.10.162   | Router wifi Regia      |             |
