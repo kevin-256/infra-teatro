@@ -21,8 +21,11 @@
 9. Lanciare il comando `/system/reset-configuration no-defaults=yes skip-backup=yes run-after-reset=file_caricato.rcs` con nome del file giusto e poi aspettare che si riavvi
 10. Confermare premendo `y`
 
-##
+## DNS
 DNS is 10.69.10.253 for everyone
+
+## NTP Server
+The NTP server is the gateway
 
 ## wan
 **Network**: DHCP\
@@ -45,10 +48,6 @@ DNS is 10.69.10.253 for everyone
 | 10.69.10.248   | Rustdesk               |             |
 | 10.69.10.247   | Truenas                |             |
 | 10.69.10.246   | Jellyfin               |             |
-|                |                        |             |
-| 10.69.10.163   | Router wifi Palco      |             |
-| 10.69.10.162   | Router wifi Regia      |             |
-| 10.69.10.161   | OPNSENSE pve           |             |
 |                |                        |             |
 | 10.69.40.156   | Ubiquiti AP            |             |
 | 10.69.10.155   | Switch Netgear GS305EP |             |
