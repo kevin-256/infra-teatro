@@ -1,0 +1,97 @@
+- name: Create directory for zone files
+  ansible.builtin.file:
+    path: /etc/bind/zones
+    state: directory
+    owner: root
+    group: bind
+    mode: "1775"
+
+- name: Generate DNS zone files
+  template:
+    src: db.template.j2
+    dest: "/etc/bind/zones/{{ item.file }}"
+    owner: root
+    group: bind
+    mode: "0644"
+  loop: "{{ bind9_zones }}"
+
+- name: Generate BIND views
+  template:
+    src: named.conf.views.j2
+    dest: /etc/bind/named.conf.views
+    owner: root
+    group: bind
+    mode: "0644"
+
+- name: Include BIND views configuration
+  blockinfile:
+    path: /etc/bind/named.conf.local
+    marker: "// {mark} ANSIBLE MANAGED VIEWS"
+    block: |
+      include "/etc/bind/named.conf.views";
+  
+- name: Remove root hints include from bind configuration
+  ansible.builtin.lineinfile:
+    path: /etc/bind/named.conf
+    regexp: '^\s*include\s+"/etc/bind/named\.conf\.root-hints";\s*$'
+    state: absent
+
+
+- name: Download ad blocking hosts list
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+    dest: /tmp/hosts.adblock
+    mode: '0644'
+
+- name: Generate BIND block database
+  ansible.builtin.shell: |
+    cat > /etc/bind/db.blocked <<'EOF'
+    $TTL 86400
+    @ IN SOA localhost. root.localhost. (
+        2026080201
+        3600
+        1800
+        604800
+        86400
+    )
+
+    @ IN NS localhost.
+    EOF
+
+    awk '/^0\.0\.0\.0/ {
+        if ($2 != "localhost" && $2 != "localhost.localdomain") {
+            print $2 " IN A 0.0.0.0"
+            print "*." $2 " IN A 0.0.0.0"
+        }
+    }' /tmp/hosts.adblock >> /etc/bind/db.blocked
+  args:
+    creates: /etc/bind/db.blocked
+
+- name: Set permissions on block database
+  ansible.builtin.file:
+    path: /etc/bind/db.blocked
+    owner: root
+    group: bind
+    mode: '0644'
+
+- name: Create BIND RPZ blocklist configuration
+  ansible.builtin.copy:
+    dest: /etc/bind/named.conf.blocklist
+    owner: root
+    group: bind
+    mode: '0644'
+    content: |
+      zone "rpz" {
+          type master;
+          file "/etc/bind/db.blocked";
+      };
+
+
+- name: Check bind configuration
+  ansible.builtin.command: named-checkconf
+  changed_when: false
+
+- name: Restart bind9
+  service:
+    name: bind9
+    state: restarted
