@@ -82,6 +82,16 @@ add name=mixer_control_vlan40  interface=bridge vlan-id=40
 add name=artnet_vlan50         interface=bridge vlan-id=50
 add name=video_vlan60          interface=bridge vlan-id=60
 
+/interface list add name=VLANs
+/interface list member
+add interface=ether2 list=VLANs
+add interface=management_vlan10 list=VLANs
+add interface=dante_primary_vlan20 list=VLANs
+add interface=dante_backup_vlan30 list=VLANs
+add interface=mixer_control_vlan40 list=VLANs
+add interface=artnet_vlan50 list=VLANs
+add interface=video_vlan60 list=VLANs
+
 # Adding ip address to interfaces
 /ip address
 add address=10.69.10.153/24 comment=defconf interface=management_vlan10    network=10.69.10.0
@@ -97,22 +107,22 @@ add address=10.69.60.153/24 comment=defconf interface=video_vlan60         netwo
 #Adding dns
 /ip dns set servers=10.69.10.253
 
-# VRRP
-/interface vrrp
-add name=vrrp_management_vlan10    interface=management_vlan10    vrid=10 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_dante_primary_vlan20 interface=dante_primary_vlan20 vrid=20 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_dante_backup_vlan30  interface=dante_backup_vlan30  vrid=30 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_mixer_control_vlan40 interface=mixer_control_vlan40 vrid=40 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_artnet_vlan50        interface=artnet_vlan50        vrid=50 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-add name=vrrp_video_vlan60         interface=video_vlan60         vrid=60 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
-#Ip address vRRP
-/ip address
-add address=10.69.10.254/24 comment=defconf interface=vrrp_management_vlan10    network=10.69.10.0
-add address=10.69.20.254/24 comment=defconf interface=vrrp_dante_primary_vlan20 network=10.69.20.0
-add address=10.69.30.254/24 comment=defconf interface=vrrp_dante_backup_vlan30  network=10.69.30.0
-add address=10.69.40.254/24 comment=defconf interface=vrrp_mixer_control_vlan40 network=10.69.40.0
-add address=10.69.50.254/24 comment=defconf interface=vrrp_artnet_vlan50        network=10.69.50.0
-add address=10.69.60.254/24 comment=defconf interface=vrrp_video_vlan60         network=10.69.60.0
+# # VRRP
+# /interface vrrp
+# add name=vrrp_management_vlan10    interface=management_vlan10    vrid=10 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+# add name=vrrp_dante_primary_vlan20 interface=dante_primary_vlan20 vrid=20 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+# add name=vrrp_dante_backup_vlan30  interface=dante_backup_vlan30  vrid=30 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+# add name=vrrp_mixer_control_vlan40 interface=mixer_control_vlan40 vrid=40 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+# add name=vrrp_artnet_vlan50        interface=artnet_vlan50        vrid=50 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+# add name=vrrp_video_vlan60         interface=video_vlan60         vrid=60 priority=100 preemption-mode=yes authentication=ah password=CHANGE_PASSWORD version=2
+# #Ip address vRRP
+# /ip address
+# add address=10.69.10.254/24 comment=defconf interface=vrrp_management_vlan10    network=10.69.10.0
+# add address=10.69.20.254/24 comment=defconf interface=vrrp_dante_primary_vlan20 network=10.69.20.0
+# add address=10.69.30.254/24 comment=defconf interface=vrrp_dante_backup_vlan30  network=10.69.30.0
+# add address=10.69.40.254/24 comment=defconf interface=vrrp_mixer_control_vlan40 network=10.69.40.0
+# add address=10.69.50.254/24 comment=defconf interface=vrrp_artnet_vlan50        network=10.69.50.0
+# add address=10.69.60.254/24 comment=defconf interface=vrrp_video_vlan60         network=10.69.60.0
 
 
 
@@ -208,10 +218,12 @@ set switch1 qos-hw-offloading=yes
 /ip firewall filter
 add chain=input action=accept connection-state=established,related
 add chain=input action=drop connection-state=invalid
-add chain=input action=accept protocol=112 comment="VRRP"
-add chain=input action=accept protocol=ipsec-ah comment="VRRP AH"
+# add chain=input action=accept protocol=112 comment="VRRP"
+# add chain=input action=accept protocol=ipsec-ah comment="VRRP AH"
 add chain=input action=accept in-interface-list=MANAGEMENT comment="ALLOW all from MANAGEMENT"
 add chain=input action=drop log=yes log-prefix="DROP input"
+add chain=forward connection-state=invalid action=reject
+add chain=forward in-interface-list=VLANs action=reject
 /ip service
 set ssh address=10.69.10.0/24
 set winbox address=10.69.10.0/24
