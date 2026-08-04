@@ -88,6 +88,7 @@ add name=video_vlan60          interface=bridge vlan-id=60
 
 /interface list add name=VLANs
 /interface list member
+add interface=ether2 list=VLANs
 add interface=management_vlan10 list=VLANs
 add interface=dante_primary_vlan20 list=VLANs
 add interface=dante_backup_vlan30 list=VLANs
