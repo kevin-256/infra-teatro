@@ -64,21 +64,20 @@ The NTP server is the gateway
 - FOH Switch:   10.69.20.1-50
 - Stage Switch: 10.69.20.51-100
 
-| ip             | device              | MAC address |
-|----------------|---------------------|-------------|
-| 10.69.20.254   | Gateway             |             |
-|                |                     |             |
-| 10.69.20.252   | Mixer SQ6           |             |
-| 10.69.20.251   | Companion           |             |
-|                |                     |             |
-| 10.69.20.161   | OPNSENSE pve        |             |
-|                |                     |             |
-| 10.69.20.151   | Mikrotik Switch FOH |             |
-|                |                     |             |
-| 10.69.20.102   | StageBox2           |             |
-| 10.69.20.101   | StageBox1           |             |
-|                |                     |             |
-| 10.69.20.1-100 | Pool DHCP           |             |
+| ip             | device                | MAC address |
+|----------------|-----------------------|-------------|
+| 10.69.20.254   | Gateway               |             |
+|                |                       |             |
+| 10.69.20.252   | Mixer SQ6             |             |
+| 10.69.20.251   | Companion             |             |
+|                |                       |             |
+| 10.69.20.153   | Mikrotik Switch Stage |             |
+| 10.69.20.151   | Mikrotik Switch FOH   |             |
+|                |                       |             |
+| 10.69.20.102   | StageBox2             |             |
+| 10.69.20.101   | StageBox1             |             |
+|                |                       |             |
+| 10.69.20.1-100 | Pool DHCP             |             |
 
 ## dante_backup
 **Network**: 10.69.30.0/24\
@@ -87,21 +86,20 @@ The NTP server is the gateway
 - FOH Switch:   10.69.30.1-50
 - Stage Switch: 10.69.30.51-100
 
-| ip             | device              | MAC address |
-|----------------|---------------------|-------------|
-| 10.69.30.254   | Gateway             |             |
-|                |                     |             |
-| 10.69.30.252   | Mixer SQ6           |             |
-| 10.69.30.251   | Companion           |             |
-|                |                     |             |
-| 10.69.30.161   | OPNSENSE pve        |             |
-|                |                     |             |
-| 10.69.30.151   | Mikrotik Switch FOH |             |
-|                |                     |             |
-| 10.69.30.102   | StageBox2           |             |
-| 10.69.30.101   | StageBox1           |             |
-|                |                     |             |
-| 10.69.30.1-100 | Pool DHCP           |             |
+| ip             | device                | MAC address |
+|----------------|-----------------------|-------------|
+| 10.69.30.254   | Gateway               |             |
+|                |                       |             |
+| 10.69.30.252   | Mixer SQ6             |             |
+| 10.69.30.251   | Companion             |             |
+|                |                       |             |
+| 10.69.30.153   | Mikrotik Switch Stage |             |
+| 10.69.30.151   | Mikrotik Switch FOH   |             |
+|                |                       |             |
+| 10.69.30.102   | StageBox2             |             |
+| 10.69.30.101   | StageBox1             |             |
+|                |                       |             |
+| 10.69.30.1-100 | Pool DHCP             |             |
 
 ## mixer_control
 **Network**: 10.69.40.0/24\
@@ -110,22 +108,22 @@ The NTP server is the gateway
 - FOH Switch:   10.69.40.1-50
 - Stage Switch: 10.69.40.51-100
 
-| ip             | device              | MAC address |
-|----------------|---------------------|-------------|
-| 10.69.40.254   | Gateway, DNS        |             |
-|                |                     |             |
-| 10.69.40.252   | Mixer SQ6           |             |
-| 10.69.40.251   | Companion           |             |
-| 10.69.40.250   | Centralino          |             |
-| 10.69.40.249   | Ubiquiti Controller |             |
-|                |                     |             |
-| 10.69.40.163   | Router wifi Palco   |             |
-| 10.69.40.162   | Router wifi Regia   |             |
-| 10.69.40.161   | OPNSENSE pve        |             |
-|                |                     |             |
-| 10.69.40.151   | Mikrotik Switch FOH |             |
-|                |                     |             |
-| 10.69.40.1-100 | Pool DHCP           |             |
+| ip             | device                | MAC address |
+|----------------|-----------------------|-------------|
+| 10.69.40.254   | Gateway, DNS          |             |
+|                |                       |             |
+| 10.69.40.252   | Mixer SQ6             |             |
+| 10.69.40.251   | Companion             |             |
+|                |                       |             |
+| 10.69.40.249   | Centralino            |             |
+|                |                       |             |
+| 10.69.40.163   | Router wifi Palco     |             |
+| 10.69.40.162   | Router wifi Regia     |             |
+|                |                       |             |
+| 10.69.40.153   | Mikrotik Switch Stage |             |
+| 10.69.40.151   | Mikrotik Switch FOH   |             |
+|                |                       |             |
+| 10.69.40.1-100 | Pool DHCP             |             |
 
 > [!NOTE]
 > Tablet fabri
@@ -139,16 +137,19 @@ The NTP server is the gateway
 - FOH Switch:   10.69.50.1-50
 - Stage Switch: 10.69.50.51-100
 
-| ip             | device              | MAC address |
-|----------------|---------------------|-------------|
-| 10.69.50.254   | Gateway             |             |
-|                |                     |             |
-| 10.69.50.252   | Mixer SQ6           |             |
-| 10.69.50.251   | Companion           |             |
-| 10.69.50.250   | Lampy               |             |
-| 10.69.50.249   | Mac QLAB            |             |
-|                |                     |             |
-| 10.69.50.1-100 | Pool DHCP           |             |
+| ip             | device                | MAC address |
+|----------------|-----------------------|-------------|
+| 10.69.50.254   | Gateway               |             |
+|                |                       |             |
+| 10.69.50.252   | Mixer SQ6             |             |
+| 10.69.50.251   | Companion             |             |
+| 10.69.50.250   | Lampy                 |             |
+| 10.69.50.249   | Mac QLAB              |             |
+|                |                       |             |
+| 10.69.50.153   | Mikrotik Switch Stage |             |
+| 10.69.50.151   | Mikrotik Switch FOH   |             |
+|                |                       |             |
+| 10.69.50.1-100 | Pool DHCP             |             |
 
 ## video
 **Network**: 10.69.60.0/24\
@@ -157,11 +158,14 @@ The NTP server is the gateway
 - FOH Switch:   10.69.60.1-50
 - Stage Switch: 10.69.60.51-100
 
-| ip             | device              | MAC address |
-|----------------|---------------------|-------------|
-| 10.69.60.254   | Gateway, DNS        |             |
-|                |                     |             |
-| 10.69.60.251   | Companion           |             |
-|                |                     |             |
-| 10.69.60.101   | Proiettore          |             |
-| 10.69.60.1-100 | Pool DHCP           |             |
+| ip             | device                | MAC address |
+|----------------|-----------------------|-------------|
+| 10.69.60.254   | Gateway, DNS          |             |
+|                |                       |             |
+| 10.69.60.251   | Companion             |             |
+|                |                       |             |
+| 10.69.60.153   | Mikrotik Switch Stage |             |
+| 10.69.60.151   | Mikrotik Switch FOH   |             |
+|                |                       |             |
+| 10.69.60.101   | Proiettore            |             |
+| 10.69.60.1-100 | Pool DHCP             |             |

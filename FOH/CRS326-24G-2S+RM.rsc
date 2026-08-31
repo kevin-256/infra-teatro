@@ -138,12 +138,14 @@ add name=mixer_control_vlan40 ranges=10.69.40.1-10.69.40.50
 add name=artnet_vlan50        ranges=10.69.50.1-10.69.50.50
 add name=video_vlan60         ranges=10.69.60.1-10.69.60.50
 
+/ip dhcp-server option
+add name=cisco-tftp code=150 value=0x0a4528f9
 
 /ip dhcp-server
 add name=dhcp_management    interface=management_vlan10    address-pool=management_vlan10    disabled=no
 add name=dhcp_dante_primary interface=dante_primary_vlan20 address-pool=dante_primary_vlan20 disabled=no
 add name=dhcp_dante_backup  interface=dante_backup_vlan30  address-pool=dante_backup_vlan30  disabled=no
-add name=dhcp_mixer_control interface=mixer_control_vlan40 address-pool=mixer_control_vlan40 disabled=no
+add name=dhcp_mixer_control interface=mixer_control_vlan40 address-pool=mixer_control_vlan40 disabled=no dhcp-option=cisco-tftp,tftp
 add name=dhcp_artnet        interface=artnet_vlan50        address-pool=artnet_vlan50        disabled=no
 add name=dhcp_video         interface=video_vlan60         address-pool=video_vlan60         disabled=no
 
@@ -209,8 +211,8 @@ set [find] trust-l3=keep
 /interface/ethernet/switch
 set switch1 qos-hw-offloading=yes
 
-# Dante Multicast
-/interface/bridge set [find name=bridge] igmp-snooping=yes multicast-querier=yes query-interval=60s
+# Dante Multicast (disabled because problems with clock and for now is not useful)
+/interface/bridge set [find name=bridge] igmp-snooping=no multicast-querier=yes query-interval=60s
 /interface/bridge/port set [find] fast-leave=yes
 
 
