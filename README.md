@@ -67,6 +67,7 @@ The NTP server is the gateway
 | ip             | device                | MAC address |
 |----------------|-----------------------|-------------|
 | 10.69.20.254   | Gateway               |             |
+| 10.69.20.253   | DNS                   |             |
 |                |                       |             |
 | 10.69.20.252   | Mixer SQ6             |             |
 | 10.69.20.251   | Companion             |             |
@@ -89,6 +90,7 @@ The NTP server is the gateway
 | ip             | device                | MAC address |
 |----------------|-----------------------|-------------|
 | 10.69.30.254   | Gateway               |             |
+| 10.69.30.253   | DNS                   |             |
 |                |                       |             |
 | 10.69.30.252   | Mixer SQ6             |             |
 | 10.69.30.251   | Companion             |             |
@@ -110,7 +112,8 @@ The NTP server is the gateway
 
 | ip             | device                | MAC address |
 |----------------|-----------------------|-------------|
-| 10.69.40.254   | Gateway, DNS          |             |
+| 10.69.40.254   | Gateway               |             |
+| 10.69.20.253   | DNS                   |             |
 |                |                       |             |
 | 10.69.40.252   | Mixer SQ6             |             |
 | 10.69.40.251   | Companion             |             |
@@ -140,6 +143,7 @@ The NTP server is the gateway
 | ip             | device                | MAC address |
 |----------------|-----------------------|-------------|
 | 10.69.50.254   | Gateway               |             |
+| 10.69.50.253   | DNS                   |             |
 |                |                       |             |
 | 10.69.50.252   | Mixer SQ6             |             |
 | 10.69.50.251   | Companion             |             |
@@ -160,7 +164,8 @@ The NTP server is the gateway
 
 | ip             | device                | MAC address |
 |----------------|-----------------------|-------------|
-| 10.69.60.254   | Gateway, DNS          |             |
+| 10.69.60.254   | Gateway               |             |
+| 10.69.20.253   | DNS                   |             |
 |                |                       |             |
 | 10.69.60.251   | Companion             |             |
 |                |                       |             |
