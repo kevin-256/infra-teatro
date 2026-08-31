@@ -31,17 +31,26 @@ add address=ntp.ccpm
 /interface ethernet set sfp-sfpplus1 disabled=yes
 /interface ethernet set sfp-sfpplus2 disabled=yes
 
+# Link Aggregation interfaces
+/interface bonding
+add name=bond_uplink mode=802.3ad \
+    slaves=ether23,ether24 \
+    lacp-rate=1sec \
+    transmit-hash-policy=layer-3-and-4 \
+    link-monitoring=mii mii-interval=100ms
+/interface bonding
+set bond_uplink mtu=1500
 
 # Management Bridge and Enabling VLAN Filtering
-/interface bridge add name=bridge mtu=1500 protocol-mode=mstp vlan-filtering=yes ingress-filtering=yes
+/interface bridge add name=bridge mtu=1500 protocol-mode=rstp vlan-filtering=yes ingress-filtering=yes
 
+:delay 1s
 
 # Add Switch Ports Access
 /interface bridge port
 add bridge=bridge interface=ether1 pvid=10 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether4 pvid=10 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether8 pvid=9  frame-types=admit-only-untagged-and-priority-tagged
-
 
 add bridge=bridge interface=ether12 pvid=60 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether13 pvid=50 frame-types=admit-only-untagged-and-priority-tagged
@@ -59,17 +68,16 @@ add bridge=bridge interface=ether22 pvid=20 frame-types=admit-only-untagged-and-
 add bridge=bridge interface=ether2 ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether6 ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
-add bridge=bridge interface=ether23      ingress-filtering=yes frame-types=admit-only-vlan-tagged
-add bridge=bridge interface=ether24      ingress-filtering=yes frame-types=admit-only-vlan-tagged
+add bridge=bridge interface=bond_uplink ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
 /interface bridge vlan
-add bridge=bridge vlan-ids=9  tagged=bridge,ether2,ether23,ether24                            untagged=ether8
-add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether6,ether23,ether24                     untagged=ether1,ether4
-add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether23,ether24                            untagged=ether18,ether20,ether22
-add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether23,ether24                            untagged=ether17,ether19,ether21
-add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether6,ether23,ether24
-add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether23,ether24                            untagged=ether13
-add bridge=bridge vlan-ids=60 tagged=bridge,ether2,ether23,ether24                            untagged=ether12
+add bridge=bridge vlan-ids=9  tagged=bridge,ether2,bond_uplink                            untagged=ether8
+add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether6,bond_uplink                     untagged=ether1,ether4
+add bridge=bridge vlan-ids=20 tagged=bridge,ether2,bond_uplink                            untagged=ether18,ether20,ether22
+add bridge=bridge vlan-ids=30 tagged=bridge,ether2,bond_uplink                            untagged=ether17,ether19,ether21
+add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether6,bond_uplink
+add bridge=bridge vlan-ids=50 tagged=bridge,ether2,bond_uplink                            untagged=ether13
+add bridge=bridge vlan-ids=60 tagged=bridge,ether2,bond_uplink                            untagged=ether12
 
 
 # Adding virtual interface 
@@ -84,6 +92,7 @@ add name=video_vlan60          interface=bridge vlan-id=60
 
 /interface list add name=VLANs
 /interface list member
+add interface=ether2 list=VLANs
 add interface=management_vlan10 list=VLANs
 add interface=dante_primary_vlan20 list=VLANs
 add interface=dante_backup_vlan30 list=VLANs
