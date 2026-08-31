@@ -49,6 +49,7 @@ The NTP server is the gateway
 | 10.69.10.247   | Truenas                |             |
 | 10.69.10.246   | Jellyfin               |             |
 | 10.69.10.245   | Mac Mini               |             |
+| 10.69.10.244   | Zabbix                 |             |
 |                |                        |             |
 | 10.69.40.156   | Ubiquiti AP            |             |
 | 10.69.10.155   | Switch Netgear GS305EP |             |
