@@ -222,7 +222,7 @@ set switch1 qos-hw-offloading=yes
 
 
 # SNMP
-/snmp set enabled=yes contact="FOH Network" location="FOH Rack"
+/snmp set enabled=yes contact="Management Network" location="Stage Rack" trap-generators=interfaces,temp-exception trap-interfaces=all trap-target=10.69.10.244 trap-version=2
 
 # Security
 /ip firewall filter
