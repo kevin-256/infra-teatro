@@ -149,6 +149,7 @@ The NTP server is the gateway
 | 10.69.50.251   | Companion             |             |
 | 10.69.50.250   | Lampy                 |             |
 | 10.69.50.249   | Mac QLAB              |             |
+| 10.69.50.248   | Netron EN4            |             |
 |                |                       |             |
 | 10.69.50.153   | Mikrotik Switch Stage |             |
 | 10.69.50.151   | Mikrotik Switch FOH   |             |
