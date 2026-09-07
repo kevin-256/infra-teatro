@@ -51,7 +51,7 @@ The NTP server is the gateway
 | 10.69.10.245   | Mac Mini               |             |
 | 10.69.10.244   | Zabbix                 |             |
 |                |                        |             |
-| 10.69.40.156   | Ubiquiti AP            |             |
+| 10.69.10.156   | Ubiquiti AP            |             |
 | 10.69.10.155   | Switch Netgear GS305EP |             |
 | 10.69.10.153   | Mikrotik Switch Stage  |             |
 | 10.69.10.151   | Mikrotik Switch FOH    |             |
@@ -146,7 +146,6 @@ The NTP server is the gateway
 | 10.69.50.254   | Gateway               |             |
 | 10.69.50.253   | DNS                   |             |
 |                |                       |             |
-| 10.69.50.252   | Mixer SQ6             |             |
 | 10.69.50.251   | Companion             |             |
 | 10.69.50.250   | Lampy                 |             |
 | 10.69.50.249   | Mac QLAB              |             |
@@ -166,7 +165,7 @@ The NTP server is the gateway
 | ip             | device                | MAC address |
 |----------------|-----------------------|-------------|
 | 10.69.60.254   | Gateway               |             |
-| 10.69.20.253   | DNS                   |             |
+| 10.69.60.253   | DNS                   |             |
 |                |                       |             |
 | 10.69.60.251   | Companion             |             |
 |                |                       |             |
