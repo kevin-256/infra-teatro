@@ -24,7 +24,6 @@ add address=ntp.ccpm
 /interface ethernet set ether9 disabled=yes
 /interface ethernet set ether10 disabled=yes
 /interface ethernet set ether11 disabled=yes
-/interface ethernet set ether14 disabled=yes
 /interface ethernet set ether15 disabled=yes
 /interface ethernet set ether16 disabled=yes
 
@@ -53,7 +52,8 @@ add bridge=bridge interface=ether4 pvid=10 frame-types=admit-only-untagged-and-p
 add bridge=bridge interface=ether8 pvid=9  frame-types=admit-only-untagged-and-priority-tagged
 
 add bridge=bridge interface=ether12 pvid=60 frame-types=admit-only-untagged-and-priority-tagged
-add bridge=bridge interface=ether13 pvid=50 frame-types=admit-only-untagged-and-priority-tagged
+add bridge=bridge interface=ether13 pvid=50 frame-types=admit-only-untagged-and-priority-tagged edge=no point-to-point=auto
+add bridge=bridge interface=ether14 pvid=50 frame-types=admit-only-untagged-and-priority-tagged edge=no point-to-point=auto
 
 add bridge=bridge interface=ether17 pvid=30 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether18 pvid=20 frame-types=admit-only-untagged-and-priority-tagged
@@ -76,7 +76,7 @@ add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether6,bond_uplink           
 add bridge=bridge vlan-ids=20 tagged=bridge,ether2,bond_uplink                            untagged=ether18,ether20,ether22
 add bridge=bridge vlan-ids=30 tagged=bridge,ether2,bond_uplink                            untagged=ether17,ether19,ether21
 add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether6,bond_uplink
-add bridge=bridge vlan-ids=50 tagged=bridge,ether2,bond_uplink                            untagged=ether13
+add bridge=bridge vlan-ids=50 tagged=bridge,ether2,bond_uplink                            untagged=ether13,ether14
 add bridge=bridge vlan-ids=60 tagged=bridge,ether2,bond_uplink                            untagged=ether12
 
 
