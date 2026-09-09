@@ -1,0 +1,17 @@
+- name: Installing docker
+  hosts: monitoring
+  become: true
+  roles:
+    - role: Install_docker
+
+#- name: Installing monitoring services
+#  hosts: monitoring
+#  vars:
+#    - monitoring_prometheus_bind: "127.0.0.1"
+#    - monitoring_grafana_bind: "0.0.0.0"
+#    - monitoring_snmp_exporter_bind: "127.0.0.1"
+#    - monitoring_blackbox_bind: "127.0.0.1"
+#    - monitoring_snmptrap_bind: "0.0.0.0"
+
+#  roles:
+#    - role: monitoring

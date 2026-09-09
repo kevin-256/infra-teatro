@@ -1,6 +1,6 @@
 all:
   hosts:
-    zabbix_server:
-      ansible_host: teatro-zabbix
+    monitoring:
+      ansible_host: teatro-monitoring
       ansible_user: kevin
       ansible_become_method: sudo

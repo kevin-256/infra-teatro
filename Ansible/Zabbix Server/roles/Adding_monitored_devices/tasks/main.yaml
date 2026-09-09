@@ -1,2 +1,31 @@
+- name: Get IP in 10.69.10.0/24
+  set_fact:
+    zabbix_monitoring_ip: >-
+      {{
+        ansible_all_ipv4_addresses
+        | select('match', '^10\.69\.10\.')
+        | first
+      }}
+
+- name: Create host groups
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: ""
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  delegate_to: "{{ zabbix_monitoring_ip }}"
+  community.zabbix.zabbix_group:
+    state: present
+    host_groups:
+      - Networking
+      - Switch
+
 - name: FOH CRS326
   ansible.builtin.import_tasks: FOH_CRS326.yaml
+
+- name: Stage CRS326
+  ansible.builtin.import_tasks: Stage_CRS326.yaml

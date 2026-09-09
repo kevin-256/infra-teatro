@@ -1,0 +1,19 @@
+---
+monitoring_config_dir: /opt/monitoring
+monitoring_data_dir: /opt/monitoring/data
+
+monitoring_prometheus_retention: 30d
+
+monitoring_prometheus_bind: "127.0.0.1"
+monitoring_grafana_bind: "0.0.0.0"
+monitoring_snmp_exporter_bind: "127.0.0.1"
+monitoring_blackbox_bind: "127.0.0.1"
+monitoring_snmptrap_bind: "0.0.0.0"
+
+monitoring_grafana_admin_user: admin
+monitoring_grafana_admin_password: "{{ vault_monitoring_grafana_admin_password }}"
+
+monitoring_snmp_devices: []
+
+monitoring_snmp_version: "2c"
+monitoring_snmp_community: "{{ vault_monitoring_snmp_community }}"

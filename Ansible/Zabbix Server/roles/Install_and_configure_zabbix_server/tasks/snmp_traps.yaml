@@ -36,7 +36,7 @@
   ansible.builtin.replace:
     path: /etc/zabbix/zabbix_server.conf
     regexp: '^#?\s*StartSNMPTrapper\s*=\s*0\s*$'
-    replace: '^StartSNMPTrapper=1'
+    replace: 'StartSNMPTrapper=1'
   become: true
 
 - name: Create empty Zabbix SNMP traps log file if not exists

@@ -62,3 +62,6 @@
     method: md5 #scram-sha-256
   become: true
   notify: Restart PostgreSQL
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers

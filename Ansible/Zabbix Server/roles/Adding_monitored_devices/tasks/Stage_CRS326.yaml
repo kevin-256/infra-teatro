@@ -1,4 +1,4 @@
-- name: Add FOH CRS326-24G-2S+RM to Zabbix
+- name: Add Stage CRS326-24G-2S+RM to Zabbix
   vars:
     ansible_network_os: community.zabbix.zabbix
     ansible_connection: httpapi
@@ -13,9 +13,9 @@
   delegate_to: "{{ zabbix_monitoring_ip }}"
 
   community.zabbix.zabbix_host:
-    host_name: "FOH_CRS326"
-    visible_name: "CRS326 FOH Switch"
-    description: "MikroTik CRS326-24G-2S+RM Front Of House Switch"
+    host_name: "Stage_CRS326"
+    visible_name: "CRS326 Stage Switch"
+    description: "MikroTik CRS326-24G-2S+RM Stage Switch"
 
     host_groups:
       - Networking
@@ -30,7 +30,7 @@
       - type: snmp
         main: 1
         useip: 1
-        ip: "10.69.10.151"
+        ip: "10.69.10.153"
         dns: ""
         port: "161"
         details:
