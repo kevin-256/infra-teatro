@@ -81,6 +81,9 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.20.254
+      - name: dns
+        type: A
+        address: 10.69.20.253
       - name: companion
         type: A
         address: 10.69.20.251
@@ -95,9 +98,12 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.30.254
+      - name: dns
+        type: A
+        address: 10.69.30.253
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.30.251
   - name: ccpm_mixer_control
     domain: ccpm
     view: mixer_control
@@ -111,10 +117,13 @@ bind9_zones:
         address: 10.69.40.254
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.40.251
+      - name: dns
+        type: A
+        address: 10.69.40.253
       - name: centralino
         type: A
-        address: 10.69.10.249
+        address: 10.69.40.249
   - name: ccpm_artnet
     domain: ccpm
     view: artnet
@@ -128,7 +137,10 @@ bind9_zones:
         address: 10.69.50.254
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.50.251
+      - name: dns
+        type: A
+        address: 10.69.50.253
       - name: centralino
         type: A
         address: 10.69.10.249
@@ -143,6 +155,9 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.60.254
+      - name: dns
+        type: A
+        address: 10.69.60.253
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.60.251
