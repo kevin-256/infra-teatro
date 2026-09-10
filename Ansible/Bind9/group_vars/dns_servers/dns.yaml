@@ -70,6 +70,32 @@ bind9_zones:
       - name: jellyfin
         type: A
         address: 10.69.10.246
+      - name: mac-mini
+        type: A
+        address: 10.69.10.245
+      - name: zabbix
+        type: A
+        address: 10.69.10.244
+      - name: ubiquiti-ap
+        type: A
+        address: 10.69.10.156
+      - name: switch-stage
+        type: A
+        address: 10.69.10.153
+      - name: switch-foh
+        type: A
+        address: 10.69.10.151
+# VLAN mixer_control
+      - name: sq6
+        type: A
+        address: 10.69.40.252
+# VLAN artnet
+      - name: lampy
+        type: A
+        address: 10.69.50.250
+      - name: en4
+        type: A
+        address: 10.69.50.248
   - name: ccpm_dante_primary
     domain: ccpm
     view: dante_primary
@@ -81,6 +107,12 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.20.254
+      - name: dns
+        type: A
+        address: 10.69.20.253
+      - name: sq6
+        type: A
+        address: 10.69.20.252
       - name: companion
         type: A
         address: 10.69.20.251
@@ -95,9 +127,15 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.30.254
+      - name: dns
+        type: A
+        address: 10.69.30.253
+      - name: sq6
+        type: A
+        address: 10.69.30.252
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.30.251
   - name: ccpm_mixer_control
     domain: ccpm
     view: mixer_control
@@ -109,12 +147,18 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.40.254
+      - name: dns
+        type: A
+        address: 10.69.40.253
+      - name: sq6
+        type: A
+        address: 10.69.40.252
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.40.251
       - name: centralino
         type: A
-        address: 10.69.10.249
+        address: 10.69.40.249
   - name: ccpm_artnet
     domain: ccpm
     view: artnet
@@ -126,12 +170,18 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.50.254
+      - name: dns
+        type: A
+        address: 10.69.50.253
       - name: companion
         type: A
-        address: 10.69.10.251
-      - name: centralino
+        address: 10.69.50.251
+      - name: lampy
         type: A
-        address: 10.69.10.249
+        address: 10.69.50.250
+      - name: en4
+        type: A
+        address: 10.69.50.248
   - name: ccpm_video
     domain: ccpm
     view: video
@@ -143,6 +193,9 @@ bind9_zones:
       - name: ntp
         type: A
         address: 10.69.60.254
+      - name: dns
+        type: A
+        address: 10.69.60.253
       - name: companion
         type: A
-        address: 10.69.10.251
+        address: 10.69.60.251
