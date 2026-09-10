@@ -163,11 +163,11 @@ add name=dhcp_video         interface=video_vlan60         address-pool=video_vl
 
 /ip dhcp-server network
 add address=10.69.10.0/24 gateway=10.69.10.254 dns-server=10.69.10.253
-add address=10.69.20.0/24 gateway=10.69.20.254 dns-server=10.69.10.253
-add address=10.69.30.0/24 gateway=10.69.30.254 dns-server=10.69.10.253
-add address=10.69.40.0/24 gateway=10.69.40.254 dns-server=10.69.10.253
-add address=10.69.50.0/24 gateway=10.69.50.254 dns-server=10.69.10.253
-add address=10.69.60.0/24 gateway=10.69.60.254 dns-server=10.69.10.253
+add address=10.69.20.0/24 gateway=10.69.20.254 dns-server=10.69.20.253
+add address=10.69.30.0/24 gateway=10.69.30.254 dns-server=10.69.30.253
+add address=10.69.40.0/24 gateway=10.69.40.254 dns-server=10.69.40.253
+add address=10.69.50.0/24 gateway=10.69.50.254 dns-server=10.69.50.253
+add address=10.69.60.0/24 gateway=10.69.60.254 dns-server=10.69.60.253
 
 
 # Interface Lists
