@@ -22,10 +22,10 @@
 10. Confermare premendo `y`
 
 ## DNS
-DNS is 10.69.10.253 for everyone
+DNS è 10.69.x.253 in base alla vlan
 
 ## NTP Server
-The NTP server is the gateway
+NTP server è 10.69.x.254 in base alla vlan
 
 ## wan
 **Network**: DHCP\
