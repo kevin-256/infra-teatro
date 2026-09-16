@@ -1,31 +1,65 @@
-- name: Get IP in 10.69.10.0/24
-  set_fact:
-    zabbix_monitoring_ip: >-
-      {{
-        ansible_all_ipv4_addresses
-        | select('match', '^10\.69\.10\.')
-        | first
-      }}
-
-- name: Create host groups
+- name: Create Zabbix host groups
   vars:
     ansible_network_os: community.zabbix.zabbix
     ansible_connection: httpapi
-    ansible_httpapi_port: 443
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_zabbix_url_path: ""
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
     ansible_user: "{{ zabbix_web_username | default('Admin') }}"
     ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
-  delegate_to: "{{ zabbix_monitoring_ip }}"
   community.zabbix.zabbix_group:
     state: present
     host_groups:
       - Networking
       - Switch
 
-- name: FOH CRS326
+- name: Get MikroTik template
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  community.zabbix.zabbix_template_info:
+    template_name: "Mikrotik by SNMP"
+  register: mikrotik_template
+
+- name: Show template info
+  ansible.builtin.debug:
+    var: mikrotik_template
+
+- name: Set all MikroTik SNMP items to 10 seconds
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  community.zabbix.zabbix_item:
+    template_name: "Mikrotik by SNMP"
+    name: "{{ item.name }}"
+    params:
+      interval: "10s"
+    state: present
+  loop: "{{ mikrotik_template.templates[0].items }}"
+  when:
+    - item.type | int == 20
+
+# - name: Creating Template for MikroTik SNMP traps alerting
+#   ansible.builtin.import_tasks: Mikrotik_by_SNMP_-_Traps.yaml
+
+- name: Configure FOH CRS326
   ansible.builtin.import_tasks: FOH_CRS326.yaml
 
-- name: Stage CRS326
+- name: Configure Stage CRS326
   ansible.builtin.import_tasks: Stage_CRS326.yaml

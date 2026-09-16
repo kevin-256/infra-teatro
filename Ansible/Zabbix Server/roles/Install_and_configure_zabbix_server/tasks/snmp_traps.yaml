@@ -22,14 +22,14 @@
   ansible.builtin.lineinfile:
     path: /usr/local/bin/zabbix_trap_receiver.pl
     regexp: '^\$SNMPTrapperFile'
-    line: "$SNMPTrapperFile = '/var/log/zabbix/zabbix_snmp_traps.log';"
+    line: "$SNMPTrapperFile = '/tmp/zabbix_snmp_traps.log';"
   become: true
 
 - name: Setting log file location for Traps
   ansible.builtin.lineinfile:
     path: /etc/zabbix/zabbix_server.conf
     regexp: '^SNMPTrapperFile'
-    line: "SNMPTrapperFile=/var/log/zabbix/zabbix_snmp_traps.log"
+    line: "SNMPTrapperFile=/tmp/zabbix_snmp_traps.log"
   become: true
 
 - name: Ensure SNMP trapper is enabled
@@ -39,22 +39,36 @@
     replace: 'StartSNMPTrapper=1'
   become: true
 
-- name: Create empty Zabbix SNMP traps log file if not exists
-  ansible.builtin.file:
-    path: /var/log/zabbix/zabbix_snmp_traps.log
-    state: touch
-    owner: Debian-snmp
-    group: Debian-snmp
-    mode: "0755"
-  become: true
-
-# TODO add logrotate here for /var/log/zabbix/zabbix_snmp_traps.log
-
 - name: Add Zabbix trap receiver configuration to snmptrapd.conf
   ansible.builtin.blockinfile:
     path: /etc/snmp/snmptrapd.conf
     marker: "# {mark} ANSIBLE ZABBIX TRAP RECEIVER"
     block: |
-      authCommunity execute public
+      authCommunity log,execute,net public
       perl do "/usr/local/bin/zabbix_trap_receiver.pl";
   become: true
+
+- name: Ensure snmptrapd is enabled and restarted
+  ansible.builtin.service:
+    name: snmptrapd
+    enabled: true
+    state: restarted
+  become: true
+
+- name: Ensure snmptrapd listens on UDP/162 (Debian-style default opts)
+  ansible.builtin.lineinfile:
+    path: /etc/default/snmptrapd
+    create: yes
+    regexp: '^SNMPTRAPDOPTS='
+    line: 'SNMPTRAPDOPTS="-n -Lo -c /etc/snmp/snmptrapd.conf"'
+  become: true
+  notify: restart snmptrapd
+
+- name: Ensure snmptrapd listens on UDP/162 (Debian-style default opts)
+  ansible.builtin.lineinfile:
+    path: /etc/default/snmptrapd
+    create: yes
+    regexp: '^SNMPTRAPDOPTS='
+    line: 'SNMPTRAPDOPTS="-n -Lo -c /etc/snmp/snmptrapd.conf"'
+  become: true
+  notify: restart snmptrapd

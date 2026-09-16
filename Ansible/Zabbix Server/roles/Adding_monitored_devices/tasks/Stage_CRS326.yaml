@@ -2,36 +2,34 @@
   vars:
     ansible_network_os: community.zabbix.zabbix
     ansible_connection: httpapi
-    ansible_httpapi_port: 443
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
     ansible_httpapi_use_ssl: true
     ansible_httpapi_validate_certs: false
-    ansible_zabbix_url_path: ""
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
     ansible_user: "{{ zabbix_web_username | default('Admin') }}"
     ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
 
   become: false
-  delegate_to: "{{ zabbix_monitoring_ip }}"
-
   community.zabbix.zabbix_host:
     host_name: "Stage_CRS326"
     visible_name: "CRS326 Stage Switch"
     description: "MikroTik CRS326-24G-2S+RM Stage Switch"
-
     host_groups:
       - Networking
       - Switch
     link_templates:
       - MikroTik CRS326-24G-2SRM by SNMP
+      # - MikroTik by SNMP - Traps
 
     status: enabled
     state: present
-
     interfaces:
       - type: snmp
-        main: 1
-        useip: 1
+        main: true
+        useip: true
         ip: "10.69.10.153"
-        dns: ""
+        dns: "switch-stage"
         port: "161"
         details:
           version: 2

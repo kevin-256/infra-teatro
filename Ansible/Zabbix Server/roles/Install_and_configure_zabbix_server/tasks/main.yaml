@@ -9,8 +9,13 @@
     deb: /tmp/zabbix_server.deb
   become: true
 
-- name: Update apt cache after adding Zabbix repo
-  apt:
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+
+- name: Install Zabbix packages
+  ansible.builtin.apt:
     name:
     - zabbix-server-pgsql
     - zabbix-frontend-php
@@ -20,8 +25,7 @@
     - zabbix-agent2
     - openssl
     - python3-cryptography
-    state: latest
-    cache_valid_time: yes
+    state: present
   become: true
 
 - name: Check if Zabbix schema already exists

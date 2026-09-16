@@ -1,0 +1,103 @@
+- name: Create MikroTik SNMP traps template
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  community.zabbix.zabbix_template:
+    template_name: "MikroTik by SNMP - Traps"
+    template_groups:
+      - "Templates/Network devices"
+    state: present
+
+
+- name: Create MikroTik linkDown trap item
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  become: false
+  community.zabbix.zabbix_item:
+    template_name: "MikroTik by SNMP - Traps"
+    name: "MikroTik interface linkDown"
+    params:
+      type: snmp_trap
+      key: 'snmptrap["1.3.6.1.6.3.1.1.5.3"]'
+      value_type: log
+      status: enabled
+    state: present
+- name: Create MikroTik linkDown trap trigger
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  become: false
+  community.zabbix.zabbix_trigger:
+    template_name: "MikroTik by SNMP - Traps"
+    name: "MikroTik: Interface link down (SNMP trap)"
+    params:
+      severity: average
+      expression: 'nodata(/MikroTik by SNMP - Traps/snmptrap["1.3.6.1.6.3.1.1.5.3"],90)=0'
+      manual_close: true
+      enabled: true
+    state: present
+
+- name: Create MikroTik linkUp trap item
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  become: false
+  community.zabbix.zabbix_item:
+    template_name: "MikroTik by SNMP - Traps"
+    name: "MikroTik interface linkUp"
+    params:
+      type: snmp_trap
+      key: 'snmptrap["1.3.6.1.6.3.1.1.5.4"]'
+      value_type: log
+      status: enabled
+    state: present
+- name: Create MikroTik linkUp trap trigger
+  vars:
+    ansible_network_os: community.zabbix.zabbix
+    ansible_connection: httpapi
+    ansible_httpapi_port: "{{ zabbix_api_port }}"
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_zabbix_url_path: "{{ zabbix_url_path }}"
+    ansible_host: "{{ zabbix_api_host }}"
+    ansible_user: "{{ zabbix_web_username | default('Admin') }}"
+    ansible_httpapi_pass: "{{ zabbix_web_password | default('zabbix') }}"
+  become: false
+  community.zabbix.zabbix_trigger:
+    template_name: "MikroTik by SNMP - Traps"
+    name: "MikroTik: Interface link up (SNMP trap)"
+    params:
+      severity: average
+      expression: 'nodata(/MikroTik by SNMP - Traps/snmptrap["1.3.6.1.6.3.1.1.5.4"],90)=0'
+      manual_close: true
+      enabled: true
+    state: present
