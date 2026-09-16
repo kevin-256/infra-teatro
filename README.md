@@ -37,26 +37,28 @@ NTP server è 10.69.x.254 in base alla vlan
 - FOH Switch:   10.69.10.1-50
 - Stage Switch: 10.69.10.51-100
 
-| ip             | device                 | MAC address |
-|----------------|------------------------|-------------|
-| 10.69.10.254   | Gateway                |             |
-| 10.69.10.253   | DNS                    |             |
-| 10.69.10.252   | Proxmox                |             |
-| 10.69.10.251   | Companion              |             |
-| 10.69.10.250   | Ubiquiti Controller    |             |
-| 10.69.10.249   | Centralino             |             |
-| 10.69.10.248   | Rustdesk               |             |
-| 10.69.10.247   | Truenas                |             |
-| 10.69.10.246   | Jellyfin               |             |
-| 10.69.10.245   | Mac Mini               |             |
-| 10.69.10.244   | Zabbix                 |             |
-|                |                        |             |
-| 10.69.10.156   | Ubiquiti AP            |             |
-| 10.69.10.155   | Switch Netgear GS305EP |             |
-| 10.69.10.153   | Mikrotik Switch Stage  |             |
-| 10.69.10.151   | Mikrotik Switch FOH    |             |
-|                |                        |             |
-| 10.69.10.1-100 | Pool DHCP              |             |
+| ip             | device                   | MAC address |
+|----------------|--------------------------|-------------|
+| 10.69.10.254   | Gateway                  |             |
+| 10.69.10.253   | DNS                      |             |
+| 10.69.10.252   | Proxmox                  |             |
+| 10.69.10.251   | Companion                |             |
+| 10.69.10.250   | Ubiquiti Controller      |             |
+| 10.69.10.249   | Centralino               |             |
+| 10.69.10.248   | Rustdesk                 |             |
+| 10.69.10.247   | Truenas                  |             |
+| 10.69.10.246   | Jellyfin                 |             |
+| 10.69.10.245   | Mac Mini                 |             |
+| 10.69.10.244   | Zabbix                   |             |
+|                |                          |             |
+| 10.69.10.202   | Companion-node-2(samsung)|             |
+|                |                          |             |
+| 10.69.10.156   | Ubiquiti AP              |             |
+| 10.69.10.155   | Switch Netgear GS305EP   |             |
+| 10.69.10.153   | Mikrotik Switch Stage    |             |
+| 10.69.10.151   | Mikrotik Switch FOH      |             |
+|                |                          |             |
+| 10.69.10.1-100 | Pool DHCP                |             |
 
 ## dante_primary
 **Network**: 10.69.20.0/24\
@@ -111,23 +113,25 @@ NTP server è 10.69.x.254 in base alla vlan
 - FOH Switch:   10.69.40.1-50
 - Stage Switch: 10.69.40.51-100
 
-| ip             | device                | MAC address |
-|----------------|-----------------------|-------------|
-| 10.69.40.254   | Gateway               |             |
-| 10.69.20.253   | DNS                   |             |
-|                |                       |             |
-| 10.69.40.252   | Mixer SQ6             |             |
-| 10.69.40.251   | Companion             |             |
-|                |                       |             |
-| 10.69.40.249   | Centralino            |             |
-|                |                       |             |
-| 10.69.40.163   | Router wifi Palco     |             |
-| 10.69.40.162   | Router wifi Regia     |             |
-|                |                       |             |
-| 10.69.40.153   | Mikrotik Switch Stage |             |
-| 10.69.40.151   | Mikrotik Switch FOH   |             |
-|                |                       |             |
-| 10.69.40.1-100 | Pool DHCP             |             |
+| ip             | device                   | MAC address |
+|----------------|--------------------------|-------------|
+| 10.69.40.254   | Gateway                  |             |
+| 10.69.20.253   | DNS                      |             |
+|                |                          |             |
+| 10.69.40.252   | Mixer SQ6                |             |
+| 10.69.40.251   | Companion                |             |
+|                |                          |             |
+| 10.69.40.249   | Centralino               |             |
+|                |                          |             |
+| 10.69.40.202   | Companion-node-2(temp)   |             |
+|                |                          |             |
+| 10.69.40.163   | Router wifi Palco        |             |
+| 10.69.40.162   | Router wifi Regia        |             |
+|                |                          |             |
+| 10.69.40.153   | Mikrotik Switch Stage    |             |
+| 10.69.40.151   | Mikrotik Switch FOH      |             |
+|                |                          |             |
+| 10.69.40.1-100 | Pool DHCP                |             |
 
 > [!NOTE]
 > Tablet fabri

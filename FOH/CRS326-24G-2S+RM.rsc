@@ -17,8 +17,6 @@ add address=ntp1.lab
 add address=ntp.ccpm
 
 # Disabling useless ports
-/interface ethernet set ether5 disabled=yes
-
 /interface ethernet set ether9 disabled=yes
 /interface ethernet set ether10 disabled=yes
 /interface ethernet set ether11 disabled=yes
@@ -64,27 +62,27 @@ add bridge=bridge interface=ether14 pvid=40 frame-types=admit-only-untagged-and-
 add bridge=bridge interface=ether15 pvid=30 frame-types=admit-only-untagged-and-priority-tagged
 add bridge=bridge interface=ether16 pvid=20 frame-types=admit-only-untagged-and-priority-tagged
 
-add bridge=bridge interface=ether20 pvid=40 frame-types=admit-only-untagged-and-priority-tagged
-
 
 # Add Switch Ports Trunk
 /interface bridge port
 add bridge=bridge interface=ether2 ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether3 ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether4 ingress-filtering=yes frame-types=admit-only-vlan-tagged
+add bridge=bridge interface=ether5 ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
 add bridge=bridge interface=ether19      ingress-filtering=yes frame-types=admit-only-vlan-tagged
+add bridge=bridge interface=ether20      ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=bond_proxmox ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=bond_uplink  ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
 /interface bridge vlan
-add bridge=bridge vlan-ids=9  tagged=bridge,ether2,bond_proxmox,bond_uplink                       untagged=ether8
-add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether3,ether4,ether19,bond_proxmox,bond_uplink untagged=ether1
-add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether19,bond_proxmox,bond_uplink               untagged=ether16
-add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether19,bond_proxmox,bond_uplink               untagged=ether15
-add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether3,ether4,ether19,bond_proxmox,bond_uplink untagged=ether6,ether7,ether14,ether20
-add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether19,bond_proxmox,bond_uplink               untagged=ether13
-add bridge=bridge vlan-ids=60 tagged=bridge,ether2,bond_proxmox,bond_uplink                       untagged=ether12
+add bridge=bridge vlan-ids=9  tagged=bridge,ether2,bond_proxmox,bond_uplink                                      untagged=ether8
+add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether3,ether4,ether5,ether19,ether20,bond_proxmox,bond_uplink untagged=ether1
+add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether19,bond_proxmox,bond_uplink                              untagged=ether16
+add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether19,bond_proxmox,bond_uplink                              untagged=ether15
+add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether3,ether4,ether5,ether19,ether20,bond_proxmox,bond_uplink untagged=ether6,ether7,ether14
+add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether19,ether20,bond_proxmox,bond_uplink                      untagged=ether13
+add bridge=bridge vlan-ids=60 tagged=bridge,ether2,ether20,bond_proxmox,bond_uplink                              untagged=ether12
 
 
 # Adding virtual interface 
