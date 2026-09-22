@@ -41,8 +41,8 @@ NTP server è 10.69.x.254 in base alla vlan
 |----------------|--------------------------|-------------|
 | 10.69.10.254   | Gateway                  |             |
 | 10.69.10.253   | DNS                      |             |
-| 10.69.10.252   | Proxmox                  |             |
-| 10.69.10.251   | Companion                |             |
+|                |                          |             |
+| 10.69.10.251   | Companion-VIP            |             |
 | 10.69.10.250   | Ubiquiti Controller      |             |
 | 10.69.10.249   | Centralino               |             |
 | 10.69.10.248   | Rustdesk                 |             |
@@ -51,7 +51,13 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.10.245   | Mac Mini                 |             |
 | 10.69.10.244   | Zabbix                   |             |
 |                |                          |             |
-| 10.69.10.202   | Companion-node-2(samsung)|             |
+| 10.69.10.213   | companion-node-3         |             |
+| 10.69.10.212   | companion-node-2         |             |
+| 10.69.10.211   | companion-node-1         |             |
+|                |                          |             |
+| 10.69.10.203   | pve-node-3               |             |
+| 10.69.10.202   | pve-node-2               |             |
+| 10.69.10.201   | pve-node-1               |             |
 |                |                          |             |
 | 10.69.10.156   | Ubiquiti AP              |             |
 | 10.69.10.155   | Switch Netgear GS305EP   |             |
@@ -71,9 +77,8 @@ NTP server è 10.69.x.254 in base alla vlan
 |----------------|-----------------------|-------------|
 | 10.69.20.254   | Gateway               |             |
 | 10.69.20.253   | DNS                   |             |
-|                |                       |             |
 | 10.69.20.252   | Mixer SQ6             |             |
-| 10.69.20.251   | Companion             |             |
+| 10.69.20.251   | Companion-VIP         |             |
 |                |                       |             |
 | 10.69.20.153   | Mikrotik Switch Stage |             |
 | 10.69.20.151   | Mikrotik Switch FOH   |             |
@@ -94,9 +99,8 @@ NTP server è 10.69.x.254 in base alla vlan
 |----------------|-----------------------|-------------|
 | 10.69.30.254   | Gateway               |             |
 | 10.69.30.253   | DNS                   |             |
-|                |                       |             |
 | 10.69.30.252   | Mixer SQ6             |             |
-| 10.69.30.251   | Companion             |             |
+| 10.69.30.251   | Companion-VIP         |             |
 |                |                       |             |
 | 10.69.30.153   | Mikrotik Switch Stage |             |
 | 10.69.30.151   | Mikrotik Switch FOH   |             |
@@ -117,13 +121,10 @@ NTP server è 10.69.x.254 in base alla vlan
 |----------------|--------------------------|-------------|
 | 10.69.40.254   | Gateway                  |             |
 | 10.69.20.253   | DNS                      |             |
-|                |                          |             |
 | 10.69.40.252   | Mixer SQ6                |             |
-| 10.69.40.251   | Companion                |             |
+| 10.69.40.251   | Companion-VIP            |             |
 |                |                          |             |
 | 10.69.40.249   | Centralino               |             |
-|                |                          |             |
-| 10.69.40.202   | Companion-node-2(temp)   |             |
 |                |                          |             |
 | 10.69.40.163   | Router wifi Palco        |             |
 | 10.69.40.162   | Router wifi Regia        |             |
@@ -150,7 +151,7 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.50.254   | Gateway               |             |
 | 10.69.50.253   | DNS                   |             |
 |                |                       |             |
-| 10.69.50.251   | Companion             |             |
+| 10.69.50.251   | Companion-VIP         |             |
 | 10.69.50.250   | Lampy                 |             |
 | 10.69.50.249   | Mac QLAB              |             |
 | 10.69.50.248   | Netron EN4            |             |
@@ -172,7 +173,7 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.60.254   | Gateway               |             |
 | 10.69.60.253   | DNS                   |             |
 |                |                       |             |
-| 10.69.60.251   | Companion             |             |
+| 10.69.60.251   | Companion-VIP         |             |
 |                |                       |             |
 | 10.69.60.153   | Mikrotik Switch Stage |             |
 | 10.69.60.151   | Mikrotik Switch FOH   |             |
