@@ -1,0 +1,49 @@
+---
+- name: Create virtual IP resources
+  command: >
+    pcs resource create virtual-ip-{{ item.ip | replace('.', '-') }}
+    ocf:heartbeat:IPaddr2
+    ip={{ item.ip }}
+    cidr_netmask={{ item.cidr }}
+    nic={{ item.nic }}
+    op monitor interval=1s timeout=2s
+    op start timeout=5s
+    op stop timeout=5s
+  loop: "{{ cluster_vips }}"
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+
+- name: Create companion service resource
+  command: >
+    pcs resource create companion-service
+    systemd:companion
+    op monitor interval=1s  timeout=2s
+    op start   timeout=10s
+    op stop    timeout=15s
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+
+- name: Create resource group
+  command: >
+    pcs resource group add companion_group
+    {% for vip in cluster_vips %}
+    virtual-ip-{{ vip.ip | replace('.', '-') }}
+    {% endfor %}
+    companion-service
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+
+# - name: Set companion service failover meta attributes
+#   command: >
+#     pcs resource meta companion-service
+#     migration-threshold=1
+#     failure-timeout=30s
+#   run_once: true
+#   delegate_to: "{{ groups['companion'][0] }}"
+
+# - name: Set default resource timeouts (rsc_defaults)
+#   command: >
+#     pcs resource defaults update
+#     migration-threshold=1
+#   run_once: true
+#   delegate_to: "{{ groups['companion'][0] }}"

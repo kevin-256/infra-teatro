@@ -1,0 +1,87 @@
+---
+- name: Destroy existing cluster
+  ansible.builtin.command:
+    cmd: pcs cluster destroy --yes
+  register: cluster_destroy
+  changed_when: cluster_destroy.rc == 0
+
+- name: Authenticate all cluster nodes
+  ansible.builtin.command:
+    cmd: >-
+      pcs host auth
+      {% for h in groups['companion'] %}
+      {{ hostvars[h].hostname }} addr={{ hostvars[h].ansible_ip }}
+      {% endfor %}
+      -u hacluster
+      -p {{ hacluster_password }}
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+  no_log: true
+  changed_when: true
+
+- name: Create the pacemaker cluster
+  ansible.builtin.command:
+    cmd: >-
+      pcs cluster setup {{ cluster_name }}
+      {% for h in groups['companion'] %}
+      {{ hostvars[h].hostname }} addr={{ hostvars[h].ansible_ip }}
+      {% endfor %}
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
+  register: cluster_create
+  changed_when: cluster_create.rc == 0
+  failed_when:
+    - cluster_create.rc != 0
+    - "'already exists' not in cluster_create.stderr"
+
+- name: Set corosync totem parameters
+  ansible.builtin.lineinfile:
+    path: "/etc/corosync/corosync.conf"
+    regexp: "^(\\s*){{ item.key }}\\s*:.*"
+    line: "    {{ item.key }}: {{ item.value }}"
+    backrefs: false
+  loop: "{{ corosync_params | dict2items }}"
+  notify: Restart corosync config
+
+- name: Enable and start pcsd
+  ansible.builtin.service:
+    name: pacemaker
+    state: started
+    enabled: true
+
+- name: Get current cluster properties
+  ansible.builtin.command:
+    cmd: pcs property config
+  register: pacemaker_properties
+  changed_when: false
+  run_once: true
+
+- name: Set cluster global properties for fast failover
+  ansible.builtin.command:
+    cmd: >-
+      pcs property set
+      stonith-enabled=false
+      dc-deadtime=5s
+      cluster-recheck-interval=1s
+#    start-failure-is-fatal=true
+#    no-quorum-policy=ignore
+  when:
+    - "'stonith-enabled=false' not in pacemaker_properties.stdout
+       or 'dc-deadtime=5s' not in pacemaker_properties.stdout
+       or 'cluster-recheck-interval=1s' not in pacemaker_properties.stdout"
+  run_once: true
+
+- name: Restart pcsd
+  ansible.builtin.service:
+    name: pcsd
+    state: restarted
+    enabled: true
+
+- name: Show cluster status
+  ansible.builtin.command: pcs status
+  register: pcs_final
+  changed_when: false
+
+- name: Print cluster status
+  ansible.builtin.debug:
+    msg: "{{ pcs_final.stdout_lines }}"

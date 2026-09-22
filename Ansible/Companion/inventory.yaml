@@ -1,0 +1,55 @@
+companion:
+  hosts:
+    teatro-companion-1:
+      ansible_host: teatro-companion-1
+      ansible_ip: 10.69.10.211
+      hostname: companion-node-1
+    teatro-companion-2:
+      ansible_host: teatro-companion-2
+      ansible_ip: 10.69.10.212
+      hostname: companion-node-2
+    teatro-companion-3:
+      ansible_host: teatro-companion-3
+      ansible_ip: 10.69.10.213
+      hostname: companion-node-3
+  vars:
+    host_key_checking: False
+    ansible_ssh_user: "kevin"
+    ansible_ssh_private_key_file: "/home/kevin/.ssh/Home_Servers.pub"
+#Glusterfs
+    gluster_device: /dev/sdb
+    gluster_partition: /dev/sdb1
+    gluster_data_dir: /cluster-data
+    gluster_brick_dir: /cluster-data/companion
+    gluster_mount_dir: /home/companion/.config/companion-nodejs
+    gluster_volume_name: companion-data
+    gluster_group: companion
+
+#Pacemaker/corosync
+    cluster_name: companion-cluster
+
+    corosync_params:
+      token: 100
+      token_retransmits_before_loss_const: 3
+      consensus: 100
+
+    cluster_vips:
+      - ip: 10.69.10.251
+        cidr: 24
+        nic: lan10
+      - ip: 10.69.20.251
+        cidr: 24
+        nic: lan20
+      - ip: 10.69.30.251
+        cidr: 24
+        nic: lan30
+      - ip: 10.69.40.251
+        cidr: 24
+        nic: lan40
+      - ip: 10.69.50.251
+        cidr: 24
+        nic: lan50
+      - ip: 10.69.60.251
+        cidr: 24
+        nic: lan60
+    hacluster_password: "SuperSecretPassword"
