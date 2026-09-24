@@ -55,9 +55,9 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.10.212   | companion-node-2         |             |
 | 10.69.10.211   | companion-node-1         |             |
 |                |                          |             |
-| 10.69.10.203   | pve-node-3               |             |
-| 10.69.10.202   | pve-node-2               |             |
-| 10.69.10.201   | pve-node-1               |             |
+| 10.69.10.203   | pve-3                    |             |
+| 10.69.10.202   | pve-2                    |             |
+| 10.69.10.201   | pve-1                    |             |
 |                |                          |             |
 | 10.69.10.156   | Ubiquiti AP              |             |
 | 10.69.10.155   | Switch Netgear GS305EP   |             |
