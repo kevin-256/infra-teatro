@@ -66,6 +66,18 @@ NTP server è 10.69.x.254 in base alla vlan
 |                |                          |             |
 | 10.69.10.1-100 | Pool DHCP                |             |
 
+## corosync
+**Network**: 10.69.11.0/24\
+**VLAN**: 11\
+| ip             | device                   | MAC address |
+|----------------|--------------------------|-------------|
+| 10.69.11.203   | pve-3                    |             |
+| 10.69.11.202   | pve-2                    |             |
+| 10.69.11.201   | pve-1                    |             |
+
+> [!WARNING]
+> Rete del cluster, se sei qui e non sai cos'è allora non dovresti essere qui
+
 ## dante_primary
 **Network**: 10.69.20.0/24\
 **VLAN**: 20\
