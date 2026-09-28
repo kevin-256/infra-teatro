@@ -51,6 +51,9 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.10.245   | Mac Mini                 |             |
 | 10.69.10.244   | Zabbix                   |             |
 |                |                          |             |
+| 10.69.10.222   | router-2                 |             |
+| 10.69.10.221   | router-1                 |             |
+|                |                          |             |
 | 10.69.10.213   | companion-node-3         |             |
 | 10.69.10.212   | companion-node-2         |             |
 | 10.69.10.211   | companion-node-1         |             |

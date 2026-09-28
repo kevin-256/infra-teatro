@@ -29,6 +29,7 @@ add address=ntp.ccpm
 
 # Link Aggregation interfaces
 add name=bond_uplink mode=802.3ad \
+/interface bonding
     slaves=ether23,ether24 \
     lacp-rate=1sec \
     transmit-hash-policy=layer-3-and-4 \
