@@ -62,6 +62,8 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.10.202   | pve-2                    |             |
 | 10.69.10.201   | pve-1                    |             |
 |                |                          |             |
+| 10.69.10.158   | AP TIM palco             |             |
+| 10.69.10.157   | AP TIM regia             |             |
 | 10.69.10.156   | Ubiquiti AP              |             |
 | 10.69.10.155   | Switch Netgear GS305EP   |             |
 | 10.69.10.153   | Mikrotik Switch Stage    |             |
