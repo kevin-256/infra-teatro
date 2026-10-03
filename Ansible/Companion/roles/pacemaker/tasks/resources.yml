@@ -33,17 +33,17 @@
   run_once: true
   delegate_to: "{{ groups['companion'][0] }}"
 
-# - name: Set companion service failover meta attributes
-#   command: >
-#     pcs resource meta companion-service
-#     migration-threshold=1
-#     failure-timeout=30s
-#   run_once: true
-#   delegate_to: "{{ groups['companion'][0] }}"
+- name: Set companion service failover meta attributes
+  command: >
+    pcs resource meta companion_group migration-threshold=0
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
 
-# - name: Set default resource timeouts (rsc_defaults)
-#   command: >
-#     pcs resource defaults update
-#     migration-threshold=1
-#   run_once: true
-#   delegate_to: "{{ groups['companion'][0] }}"
+- name: Set default resource timeouts (rsc_defaults)
+  command: >
+    pcs resource update companion-service \
+    op start timeout=60s \
+    op stop timeout=45s \
+    op monitor interval=10s timeout=25s
+  run_once: true
+  delegate_to: "{{ groups['companion'][0] }}"
