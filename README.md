@@ -2,25 +2,6 @@
 
 ![Network Diagram](Network_diagram.png "Network Diagram")
 
-## ⚠️⚠️ ISTRUZIONI RESET DI EMERGENZA ⚠️⚠️
-
-1. Resettare lo switch:
-    1. Togliergli l'alimentazione
-    2. Mentre si tiene premuto il pulsante di reset
-    3. Ricollegare l'alimentazione
-    4. Appena il led USR comincia a lampeggiare mollare il pulsante di reset
-2. Aspettare che si riaccenda(potrebbe volerci un po anche 2 minuti)
-3. Collegarsi ad una porta qualsiasi
-4. Aprire winbox e collegarsi(tramite mac address) con username `admin` e senza password
-5. Andare su menu files a sinistra
-6. Trascinare il file .rcs dal proprio pc alla pagina files
-> [!NOTE]
-> Cambiare le password nel file di configurazione prima di lanciare il file cambiando in tutti i punti dove compare `CHANGE_PASSWORD`
-7. Aprire un nuovo terminale dentro winbox dal menu a sinistra
-8. Impostare una password come richiesto
-9. Lanciare il comando `/system/reset-configuration no-defaults=yes skip-backup=yes run-after-reset=file_caricato.rcs` con nome del file giusto e poi aspettare che si riavvi
-10. Confermare premendo `y`
-
 ## DNS
 DNS è 10.69.x.253 in base alla vlan
 
