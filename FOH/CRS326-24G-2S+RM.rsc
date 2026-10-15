@@ -240,4 +240,4 @@ set winbox address=10.69.10.0/24
 
 # Setup user
 /user/add name=kevin password=CHANGE_PASSWORD group=full
-/user ssh-keys add user=kevin key="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEJJAjDDynjl2BiQVuaxuFBF/LkZnEWHYGJsIQjiGbT9"
+/user ssh-keys add user=kevin key="sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIP3QBPQX5ByCrlqJVmdtt2AQVPw8BBRYeYiZ5DXHBA8VAAAABHNzaDo="
