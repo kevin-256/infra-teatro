@@ -32,6 +32,7 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.10.245   | Mac Mini                 |             |
 | 10.69.10.244   | Zabbix                   |             |
 |                |                          |             |
+| 10.69.10.223   | router-3                 |             |
 | 10.69.10.222   | router-2                 |             |
 | 10.69.10.221   | router-1                 |             |
 |                |                          |             |
@@ -54,7 +55,7 @@ NTP server è 10.69.x.254 in base alla vlan
 
 ## corosync
 **Network**: 10.69.11.0/24\
-**VLAN**: 11\
+**VLAN**: 11
 | ip             | device                   | MAC address |
 |----------------|--------------------------|-------------|
 | 10.69.11.203   | pve-3                    |             |
@@ -82,6 +83,7 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.20.151   | Mikrotik Switch FOH   |             |
 |                |                       |             |
 | 10.69.20.102   | StageBox2             |             |
+| 10.69.20.101   | StageBox1             |             |
 | 10.69.20.101   | StageBox1             |             |
 |                |                       |             |
 | 10.69.20.1-100 | Pool DHCP             |             |
@@ -171,7 +173,6 @@ NTP server è 10.69.x.254 in base alla vlan
 | 10.69.60.254   | Gateway               |             |
 | 10.69.60.253   | DNS                   |             |
 |                |                       |             |
-| 10.69.60.251   | Companion-VIP         |             |
 |                |                       |             |
 | 10.69.60.153   | Mikrotik Switch Stage |             |
 | 10.69.60.151   | Mikrotik Switch FOH   |             |

@@ -64,20 +64,21 @@ add bridge=bridge interface=ether4 ingress-filtering=yes frame-types=admit-only-
 
 add bridge=bridge interface=ether18     ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether17     ingress-filtering=yes frame-types=admit-only-vlan-tagged
+add bridge=bridge interface=ether19     ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether20     ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether21     ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=ether22     ingress-filtering=yes frame-types=admit-only-vlan-tagged
 add bridge=bridge interface=bond_uplink ingress-filtering=yes frame-types=admit-only-vlan-tagged
 
 /interface bridge vlan
-add bridge=bridge vlan-ids=9  tagged=bridge,ether2,ether20,ether21,ether22,bond_uplink                                      untagged=ether8
-add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether3,ether4,ether18,ether17,ether20,ether21,ether22,bond_uplink        untagged=ether1
+add bridge=bridge vlan-ids=9  tagged=bridge,ether2,ether19,ether20,ether21,ether22,bond_uplink                                  untagged=ether8
+add bridge=bridge vlan-ids=10 tagged=bridge,ether2,ether3,ether4,ether17,ether18,ether19,ether20,ether21,ether22,bond_uplink    untagged=ether1
 add bridge=bridge vlan-ids=11 tagged=ether20,ether21,ether22
-add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether17,ether20,ether21,ether22,bond_uplink                              untagged=ether16
-add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether17,ether20,ether21,ether22,bond_uplink                              untagged=ether15
-add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether3,ether4,ether18,ether17,ether20,ether21,ether22,bond_uplink        untagged=ether6,ether7,ether14
-add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether18,ether17,ether20,ether21,ether22,bond_uplink                      untagged=ether13
-add bridge=bridge vlan-ids=60 tagged=bridge,ether2,ether18,ether20,ether21,ether22,bond_uplink                              untagged=ether12
+add bridge=bridge vlan-ids=20 tagged=bridge,ether2,ether17,ether20,ether21,ether22,bond_uplink                              	untagged=ether16
+add bridge=bridge vlan-ids=30 tagged=bridge,ether2,ether17,ether20,ether21,ether22,bond_uplink                              	untagged=ether15
+add bridge=bridge vlan-ids=40 tagged=bridge,ether2,ether3,ether4,ether17,ether18,ether19,ether20,ether21,ether22,bond_uplink    untagged=ether6,ether7,ether14
+add bridge=bridge vlan-ids=50 tagged=bridge,ether2,ether18,ether17,ether19,ether20,ether21,ether22,bond_uplink                  untagged=ether13
+add bridge=bridge vlan-ids=60 tagged=bridge,ether2,ether18,ether19,ether20,ether21,ether22,bond_uplink                          untagged=ether12
 
 
 # Adding virtual interface 
