@@ -40,12 +40,12 @@ set vrrp_management sync-connection-tracking=yes
 
 # Interfaces IP addresses
 /ip address
-add address=10.69.10.221/24 interface=vlan10_management    comment="Management Physical IP"
-add address=10.69.20.221/24 interface=vlan20_dante_primary
-add address=10.69.30.221/24 interface=vlan30_dante_backup
-add address=10.69.40.221/24 interface=vlan40_mixer_control
-add address=10.69.50.221/24 interface=vlan50_artnet
-add address=10.69.60.221/24 interface=vlan60_video
+add address=10.69.10.223/24 interface=vlan10_management    comment="Management Physical IP"
+add address=10.69.20.223/24 interface=vlan20_dante_primary
+add address=10.69.30.223/24 interface=vlan30_dante_backup
+add address=10.69.40.223/24 interface=vlan40_mixer_control
+add address=10.69.50.223/24 interface=vlan50_artnet
+add address=10.69.60.223/24 interface=vlan60_video
 
 add address=10.69.10.254/32 interface=vrrp_management     comment="Gateway Management Gateway"
 add address=10.69.20.254/32 interface=vrrp_dante_primary  comment="Gateway Dante Primary Gateway"
